@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-mh-n2&$%8%023bklzla#h%5x&bprzp@x&3)#9s1r5g7)#l7cgj
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0ef3-185-199-104-14.ngrok-free.app']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '93ac-104-151-16-127.ngrok-free.app']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'userauth.apps.UserauthConfig',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
