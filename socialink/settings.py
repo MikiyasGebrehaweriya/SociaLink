@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-mh-n2&$%8%023bklzla#h%5x&bprzp@x&3)#9s1r5g7)#l7cgj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '93ac-104-151-16-127.ngrok-free.app']
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '9172-104-151-16-127.ngrok-free.app']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'userauth.apps.UserauthConfig',
     'sslserver',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+
+# # Allowed styles from Tailwind CSS CDN and own domain
+# SECURE_CONTENT_TYPE_POLICY = "script-src 'self'; style-src 'self' https://unpkg.com/tailwindcss@^2; base-uri 'self'; form-action 'self'"
+
+# Allowed styles from Tailwind CSS CDN and own domain
+SECURE_CONTENT_TYPE_POLICY = (
+    "script-src 'self' https://cdnjs.cloudflare.com; "
+    "style-src 'self' https://cdn.tailwindcss.com; "
+    "img-src 'self' data:; base-uri 'self'; form-action 'self'"
+)
+# Enable Report-Only mode
+CSP_REPORT_ONLY = True  # Set to False for enforcement
+
+# Define a secure endpoint for receiving reports
+CSP_REPORT_URI = 'https://127.0.0.1:4000/report-csp-violation/'
+
+
+
 
 ROOT_URLCONF = 'socialink.urls'
 
@@ -90,7 +110,7 @@ DATABASES = {
         'NAME': secrets.database_name,  # Replace with the name of your database
         'USER': secrets.database_user,  # Replace with the database user
         'PASSWORD': secrets.database_password,  # Replace with the database password
-        'HOST': secrets.databse_host,  # Or the host where PostgreSQL is running
+        'HOST': secrets.database_host,  # Or the host where PostgreSQL is running
         'PORT': secrets.database_port,  # Default PostgreSQL port
     }
 }

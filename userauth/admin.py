@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import UserProfile, TermsAndConditions, ConnectedAccounts, Facebook, Instagram, Youtube, Linkedin, Google, X, Tiktok
+from .models import UserProfile, TermsAndConditions, ConnectedAccounts, Facebook, Instagram, Youtube, Linkedin, Google, X, Tiktok, Connection, Post
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'fullName', 'bio', 'profilePicture', 'qr_code']
-    search_fields = ['user', 'fullName', 'bio', 'profilePicture', 'qr_code']
-    list_filter = ['user', 'fullName', 'bio', 'profilePicture', 'qr_code']
+    list_display = ['user', 'fullName', 'bio', 'profilePicture', 'qr_code', "user_code", "verified", "created_at"]
+    search_fields = ['user', 'fullName', 'bio', 'profilePicture', 'qr_code', "user_code", "verified", "created_at"]
+    list_filter = ['user', 'fullName', 'bio', 'profilePicture', 'qr_code', "user_code", "verified", "created_at"]
     list_per_page = 25
 
 class TermsAndConditionsAdmin(admin.ModelAdmin):
@@ -62,6 +62,21 @@ class TiktokAdmin(admin.ModelAdmin):
     list_filter = ['user', 'token', 'token_type', 'expires', 'lastsync']
     list_per_page = 25
     
+    
+class ConnectionAdmin(admin.ModelAdmin):
+    list_display = ['user', "connected_user", "created_at"]
+    search_fields = ['user', "connected_user", "created_at"]
+    list_filter = ['user', "connected_user", "created_at"]
+    list_per_page = 25
+    
+    
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['user', "content_type", "created_at"]
+    search_fields = ['user', "content_type", "created_at"]
+    list_filter = ['user', "content_type", "created_at"]
+    list_per_page = 25
+
+    
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(TermsAndConditions, TermsAndConditionsAdmin)
 admin.site.register(ConnectedAccounts, ConnectedAccountsAdmin)
@@ -72,3 +87,5 @@ admin.site.register(Linkedin, LinkedinAdmin)
 admin.site.register(Google, GoogleAdmin)
 admin.site.register(X, XAdmin)
 admin.site.register(Tiktok, TiktokAdmin)
+admin.site.register(Connection, ConnectionAdmin)
+admin.site.register(Post, PostAdmin)

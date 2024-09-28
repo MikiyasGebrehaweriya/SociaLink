@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'images/logo-icon-socialink.png' %}" rel="icon" type="image/png">
+    <title>SociaLink</title>
+    <link rel="stylesheet" href="{% static 'css/SL/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/SL/fancybox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/SL/new_style.min.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/SL/authentication.css' %}"> 
+    <style>
+        .wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .main {
+            display: flex;
+            justify-content: center; /* Centering along the main axis */
+            align-items: center; /* Centering along the cross axis */
+            flex-wrap: wrap; /* Allow items to wrap when screen size is smaller */
+        }
+        
+        .heading {
+            flex: 60%;
+        }
+        
+        .count {
+            flex: 40%;
+            display: flex;
+            justify-content: center; /* Centering along the main axis */
+            align-items: center; /* Centering along the cross axis */
+        }
+
+
+        .logo_header {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap when screen size is smaller */
+            margin-bottom: 20px;
+        }
+
+        .logo_img {
+            margin-right: 10px; /* Adjust spacing between logo and logo name */
+        }
+        
+        #logo_name {
+            font-size: 20px; /* Adjust font size of logo name as needed */
+        }
+
+
+
+
+        
+        
+    </style>
+</head>
+
+<body >
+    
+    <div class="wrapper">
+        <main class="main">
+            <section class="main__heading heading">
+                <div class="logo_header">
+                    <div class="logo_img aside__resize">
+                        <img class="logo__img logo__rotate" src="{% static 'images/logo-icon-socialink.png' %}" alt="img" style="width:60px;height:60px;">
+                    </div>
+                    <div id="logo_name">
+                        <div id="welcome-line-1">SociaLink</div>
+                        <p id="welcome-line-2">Unify Your Digital Presence</p>
+                    </div>
+                </div>
+                <div class="container">
+                    <h1 class="heading__title">
+                        <span>
+                            Join Us: 
+                        </span>
+                        Seamlessly Integrate Your Accounts with 
+                        <span>
+                            SociaLink!
+                        </span>
+                    </h1>
+                </div>
+            </section>
+            <section class="main__count count">
+                <div id="form-ui">
+                    <form method="POST" action="{% url 'signUp' %}" id="form">
+                        {% csrf_token %}
+                        <div id="form-body">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="notifications-container">
+                                        <div class="alert">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 alert-svg">
+                                                    <path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="alert-prompt-wrap">
+                                                <p class="text-sm text-yellow-700">
+                                                    {{ message }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <div id="welcome-lines">
+                                <div id="welcome-line-3">Create Account</div>
+                            </div>
+                            <div id="input-area">
+                                {% for field in user_form %}
+                                    {% if field.name == 'username' %}
+                                    <div class="form-inp">
+                                        <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" placeholder="{{ field.label }}" required="">
+                                    </div>
+                                    {% elif field.name == 'email' %}
+                                    <div class="form-inp">
+                                        <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" placeholder="{{ field.label }}" required="">
+                                    </div>
+                                    {% elif field.name == 'password1' %}
+                                    <div class="form-inp">
+                                        <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" placeholder="{{ field.label }}" required="">
+                                    </div>
+                                    {% elif field.name == 'password2' %}
+                                    <div class="form-inp">
+                                        <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" placeholder="{{ field.label }}" required="">
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div id="submit-button-cvr">
+                                <button id="submit-button" type="submit">Create Account</button>
+                            </div>
+                            <div id="create_account">
+                                <a href="{% url 'signIn' %}">Have an account? <span>Login</span></a>
+                            </div>
+                            <div id="bar"></div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+  
+    <button class="switch-button"></button>
+
+
+    <script src="{% static 'js/SL/jquery.min.js' %}"></script>
+    <script src="{% static 'js/SL/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'js/SL/fancybox.umd.js' %}"></script>
+    <script src="{% static 'js/SL/TweenMax.min.js' %}"></script>
+    <script src="{% static 'js/SL/main.min.js' %}"></script>
+    
+    
+    
+</body>
+
+</html>

@@ -1,13 +1,62 @@
-from django.shortcuts import render, redirect
+"""
+The Python script contains functions for user authentication, profile management, social media
+account connections, generating QR codes, handling CSRF tokens, and interacting with external APIs.
+:return: The code snippet provided contains various functions related to user authentication,
+profile management, social media account connections, and posting functionalities in a Django
+project. The functions handle user sign-in, sign-up, sign-out, terms and conditions acceptance,
+profile completion, social media account authorization callbacks, profile viewing, AI interaction,
+member listing, post creation, profile updates, connections between users, reporting CSP violations,
+post deletion
+"""
+
+# The above code is a Python script that imports various modules and classes from the Django
+# framework. It includes functionalities for rendering views, handling HTTP responses, managing CSRF
+# tokens, working with forms, models, authentication, and settings in a Django project.
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.middleware.csrf import constant_time_compare
+from django.db.models import Q
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.conf import settings
+
 from .forms import UserForm, MyUserCreationForm, UserProfileForm
-from .models import User, UserProfile, TermsAndConditions, ConnectedAccounts, Facebook, Instagram, Youtube, Linkedin, Google, X, Tiktok
+from .models import User, UserProfile, TermsAndConditions, ConnectedAccounts, Facebook, Instagram, Youtube, Linkedin, Google, X, Tiktok, Post, Connection
 import requests
 from socialink.secrets import INSTAGRAM_CLIENT_ID, INSTAGRAM_CLIENT_SECRET, FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET
 from datetime import datetime, timedelta
 from django.utils import timezone
 import qrcode
+import psycopg2
+import json
+import os
+import random
+
+
+import langchain.agents
+import langchain_community.agent_toolkits
+from langchain.agents import create_sql_agent
+from langchain.sql_database import SQLDatabase
+from langchain_openai import ChatOpenAI
+
+from dotenv import load_dotenv
+import os
+
+
+# load_dotenv()
+# API_KEY = os.environ.get("OPENAI_API_KEY")
+
+def generate_unique_number():
+    while True:
+        # Generate a random 16-digit number
+        random_number = ''.join([str(random.randint(0, 9)) for _ in range(16)])
+        
+        # Check if the number already exists in the database
+        if not UserProfile.objects.filter(user_code=random_number).exists():
+            return random_number
 
 
 def signIn(request):
@@ -34,7 +83,7 @@ def signIn(request):
             messages.error(request, "User does not exist")
 
     context = {}
-    return render(request, "userauth/signIn.html", context)
+    return render(request, "userauth/signIn2.html", context)
 
 
 def signUp(request):
@@ -47,6 +96,37 @@ def signUp(request):
             user.username = user.username.lower()
             user.save()
             login(request, user)
+            
+            # Generate QR code content (e.g., user profile URL)
+            qr_content = request.build_absolute_uri(f'/profile/{user.username}/')
+            # Generate QR code image
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(qr_content)
+            qr.make(fit=True)
+            qr_img = qr.make_image(fill_color="#135D66", back_color="#FFF5E0")
+            
+            # Save the QR code image to the media root's "qrcodes" folder
+            media_root = settings.MEDIA_ROOT
+            qrcodes_folder = os.path.join(media_root, 'qrcodes')
+            if not os.path.exists(qrcodes_folder):
+                os.makedirs(qrcodes_folder)
+            qr_img_path = os.path.join(qrcodes_folder, f'{user.username}_qr.png')
+            qr_img.save(qr_img_path)
+            
+            unique_number = generate_unique_number()
+            print(unique_number)
+            
+            # Create a UserProfile object for the user and save the QR code path
+            user_profile = UserProfile.objects.create(user=user)
+            user_profile.qr_code = qr_img_path
+            user_profile.user_code = unique_number
+            user_profile.save()
+            
             return redirect('termsAndconditions')
         else:
             # Error messages for form validation errors
@@ -57,7 +137,7 @@ def signUp(request):
     context = {
         'user_form': user_form,
     }
-    return render(request, "userauth/signUp.html", context)
+    return render(request, "userauth/signUp2.html", context)
 
 
 def signOut(request):
@@ -92,12 +172,42 @@ def completeProfile(request):
         "connected_instagram_account": connected_instagram_account,
         "connected_facebook_account": connected_facebook_account,
     }
-    return render(request, "userauth/completeProfile.html", context)
+    return render(request, "userauth/completeProfile2.html", context)
+
+
+def instagramAuthorize(request):
+    csrf_token = get_token(request)
+    # Save the CSRF token in session for later verification
+    request.session['instagram_csrf_token'] = csrf_token
+    
+    # Construct the Instagram authorization URL with the state parameter
+    instagram_authorization_url = (
+        f"https://www.instagram.com/oauth/authorize/third_party?"
+        f"client_id={INSTAGRAM_CLIENT_ID}&"
+        f"redirect_uri=https%3A%2F%2F127.0.0.1%3A4000%2Finstagram_callback%2F&"
+        f"scope=user_profile%2Cuser_media&"
+        f"response_type=code&"
+        f"logger_id=1f889917-cda8-490e-9e7d-6b3ee7e51de2&"
+        f"state={csrf_token}"
+    )
+    return redirect(instagram_authorization_url)
 
 
 def instagramCallback(request):
-    # Extract the access code from the query parameters
+    # Extract the access code and state from the query parameters
     code = request.GET.get('code')
+    state = request.GET.get('state')
+    
+    # Retrieve the CSRF token from session
+    csrf_token = request.session.get('instagram_csrf_token')
+
+    # Check if the state parameter matches the CSRF token
+    if not constant_time_compare(csrf_token, state):
+        # Handle CSRF validation failure
+        # Error message to be displayed in the template
+        messages.error(request, "CSRF validation failed")
+        return redirect('completeProfile')
+    
     
     # Make a POST request to exchange the access code for an access token
     response = requests.post('https://api.instagram.com/oauth/access_token', data={
@@ -193,10 +303,13 @@ def facebookCallback(request):
         # Check if the request was successful
         if facebook_response.status_code == 200:
             user_data = facebook_response.json()
+            print(user_data)
             facebook_user_id = user_data.get('id')
             facebook_user_name = user_data.get('name')
             
-            if not Facebook.objects.filter(facebook_id=facebook_user_id).exists():
+            if Facebook.objects.filter(facebook_id=facebook_user_id).exists():
+                messages.error(request, "Account Already Connected")
+            else:
                 Facebook.objects.create(
                         user=request.user,
                         facebook_id=facebook_user_id,
@@ -212,9 +325,6 @@ def facebookCallback(request):
                 connected_accounts.facebook += 1
                 connected_accounts.save()
                 print("SUCCESS")
-                
-            else:
-                messages.error(request, "Account Already Connected")
         else:
             print("Error fetching user details:", facebook_response.text)
     else:
@@ -223,33 +333,269 @@ def facebookCallback(request):
     return redirect('completeProfile')
 
 
+def youtubeCallback(request):
+    pass
 
+def linkedinCallback(request):
+    pass
+
+def xCallback(request):
+    pass
+
+def snapchatCallback(request):
+    pass
+
+def tiktokCallback(request):
+    pass
+
+def googleCallback(request):
+    pass   
+
+def twitchCallback(request):
+    pass    
+
+def githubCallback(request):
+    pass
 
 def profile(request, username):
-    user = User.objects.get(username=request.user)
-    user_profile = UserProfile.objects.get(user=user)
-    instagram = Instagram.objects.get(user=user)
+    profile = get_object_or_404(User, username=username)
+    logged_user_profile = UserProfile.objects.get(user=request.user)
+    is_own_profile = request.user.is_authenticated and str(request.user) == str(profile.username)
+    print(is_own_profile, profile, profile.username, request.user, request.user.is_authenticated)
     
-    access_token = instagram.token
+    user = User.objects.get(username=username)
+    user_profile = UserProfile.objects.get(user=user)
+    list_of_users_profile = UserProfile.objects.exclude(user=user).order_by('-created_at')[:5]
+    profile_form = UserProfileForm(instance=request.user)
+    instagram = Instagram.objects.get(user=user)
+    facebook = Facebook.objects.get(user=user)
+    
+    posts = Post.objects.filter(user=user).order_by('-created_at')
+    
+    # Retrieve the connected users for the current user
+    connected_users = Connection.objects.filter(user=user).values_list('connected_user', flat=True)
+    # Retrieve the 5 most recent posts from the connected users
+    recent_posts_form_connected_users = Post.objects.filter(user__in=connected_users).order_by('-created_at')[:4]
+    
+    
+    connected_instagram_account = Instagram.objects.filter(user=user)
+    connected_facebook_account = Facebook.objects.filter(user=user)
+    # Retrieve the ConnectedAccounts object for the user
+    user_connected_account = ConnectedAccounts.objects.get(user=user)
+    # Sum up the values of all attributes
+    total_connected = (
+        user_connected_account.facebook +
+        user_connected_account.instagram +
+        user_connected_account.youtube +
+        user_connected_account.linkedin +
+        user_connected_account.google +
+        user_connected_account.x +
+        user_connected_account.tiktok
+    )
+    
+    
+    instagram_access_token = instagram.token
     api_url = 'https://graph.instagram.com/me/media'
     params = {
         'fields': 'id,caption,media_type,media_url,thumbnail_url,username,timestamp',
-        'access_token': access_token
+        'access_token': instagram_access_token
     }
     instagram_response = requests.get(api_url, params=params)
     if instagram_response.status_code == 200:
         instagram_data = instagram_response.json()
+        instagram_user = Instagram.objects.get(user=user)
+        instagram_user.data = instagram_data
+        instagram_user.last_updated = timezone.now()
+        instagram_user.save()
     else:
         error_message = "Error fetching Instagram content"
+        print(error_message)
         
         
-        
-   
+    facebook_access_token = facebook.token
+    api_url = 'https://graph.facebook.com/v12.0/me'
+    params = {
+        'fields': 'name,email,birthday,photos,posts,likes,events,hometown,friends',
+        'access_token': facebook_access_token
+    }    
+    facebook_response = requests.get(api_url, params=params)
+    if facebook_response.status_code == 200:
+        facebook_data = facebook_response.json()
+        facebook_user = Facebook.objects.get(user=user)
+        facebook_user.data = facebook_data
+        facebook_user.last_updated = timezone.now()
+        facebook_user.save()
+    else:    
+        error_message = "Error fetching Facebook content"
+        print(error_message)
 
     
     context = {
         "user": user,
         "user_profile": user_profile,
+        "logged_user_profile": logged_user_profile,
+        "profile_form": profile_form,
         'instagram_data': instagram_data,
+        "total_connected": total_connected,
+        "connected_instagram_account": connected_instagram_account,
+        "connected_facebook_account": connected_facebook_account,
+        "is_own_profile": is_own_profile,
+        "posts": posts,
+        "recent_posts_form_connected_users": recent_posts_form_connected_users,
+        "list_of_users_profile": list_of_users_profile,
     }
-    return render(request, "userauth/profile.html", context)
+    return render(request, "userauth/members-page.html", context)
+
+
+def ai(request):
+    if request.method == 'POST':
+        data = request.POST.get('data')
+        instagram_json = Instagram.objects.get(user=request.user).data
+        db_user = "TestUser"
+        db_password = "testuserpassword"
+        db_host = "localhost"
+        db_port = "5432"
+        db_name = "SociaLink"
+        
+        db = SQLDatabase.from_uri(f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}") 
+        
+        
+        # Configure your OpenAI API key
+        OPENAI_API_KEY = "your_openai_api_key"
+        llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7, api_key="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")
+
+       
+        agent = create_sql_agent(llm, db=db, verbose=True)
+        question = "What are the top 5 users?"
+        answer = agent.run(question)
+
+
+        response_data = {'message': 'Data received successfully'}
+        return JsonResponse(response_data)
+    return JsonResponse({'error': 'Invalid request method'})
+
+
+def members(request):
+    if request.method == 'POST':
+        search_query = request.POST.get('search_query')
+        search_query = (
+            Q(user__username__icontains=search_query) |  # Search in the username field of the related User model
+            Q(fullName__icontains=search_query) |       # Search in the fullName field of UserProfile
+            Q(user__email__icontains=search_query) |    # Search in the email field of the related User model
+            Q(user_code__icontains=search_query)       # Search in the user_code field of UserProfile
+        )
+        users_profile = UserProfile.objects.filter(search_query).exclude(user=request.user)
+    else:
+        users_profile = UserProfile.objects.all().exclude(user=request.user)
+        
+    logged_user_profile = UserProfile.objects.get(user=request.user)
+    connections = Connection.objects.filter(user=request.user)
+    connected_users = Connection.objects.filter(user=request.user).values_list('connected_user', flat=True)
+    context = {
+        "users_profile": users_profile,
+        "logged_user_profile": logged_user_profile,
+        "connections": connections,
+        "connected_users": connected_users,
+    }
+    return render(request, "userauth/members2.html", context)
+
+
+def create(request):        
+    user = request.user
+    user_profile = UserProfile.objects.get(user=request.user)
+    total_posts = Post.objects.filter(user=user).count()
+    image_posts = Post.objects.filter(user=user, content_type="image").count()
+    video_posts = Post.objects.filter(user=user, content_type="video").count()
+    twitte_posts = Post.objects.filter(user=user, content_type="text").count()
+    recent_posts = Post.objects.filter(user=user).order_by('-created_at')[:5]
+    latest_post = Post.objects.filter(user=user).latest('created_at')
+    top5_recent_posts = Post.objects.filter(user=user).order_by('-created_at')[:5]
+    
+    if request.method == 'POST':
+        if 'twitte_submit' in request.POST:
+            twitte = request.POST.get('twitte')
+            post = Post.objects.create(user=user, content_type='text', content=twitte)
+            print("Twitte submitted: " + twitte)
+        elif 'image_submit' in request.POST:
+            image = request.FILES.get('image') 
+            caption = request.POST.get('caption') 
+            post = Post.objects.create(user=user, content_type="image", media_file=image, content=caption)
+            print("Image submitted", image)
+        elif 'video_submit' in request.POST:
+            video = request.FILES.get('video') 
+            caption = request.POST.get('caption')
+            post = Post.objects.create(user=user, content_type="video", media_file=video, content=caption)
+            print("Video submitted", video)
+                     
+    context = {
+        "user_profile": user_profile,
+        "total_posts": total_posts,
+        "twitte_posts": twitte_posts,
+        "image_posts": image_posts,
+        "video_posts": video_posts,
+        "recent_posts": recent_posts,
+        "latest_post": latest_post,
+    }
+    
+    return render(request, "userauth/create.html", context)
+
+
+
+def update_profile(request):
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', username=request.user.username)
+    
+    return redirect('profile', username=request.user.username)
+
+
+def connect(request, username):
+    user = request.user
+    connected_user = User.objects.get(username=username)
+    check_connection = Connection.objects.filter(user=user, connected_user=connected_user).exists()
+    if check_connection:
+        messages.error(request, "Connection already exists")
+    else:
+        connect_user = Connection.objects.create(user=user, connected_user=connected_user)
+    return redirect('profile', username=username)
+
+
+def report_csp_violation(request):
+    if request.method == 'POST':
+        # Process the CSP violation report data (JSON)
+        report_data = json.loads(request.body)
+        # Log the report data for analysis
+        # ... (Your logging implementation here)
+        return HttpResponse(status=204)  # No Content response
+    return HttpResponseBadRequest()
+
+
+def delete(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.delete()
+    return redirect('profile', username=request.user.username)
+
+def update(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.method == 'POST':
+        if 'twitte_submit' in request.POST:
+            twitte = request.POST.get('twitte')
+            post.content = twitte
+            post.save()
+        elif 'image_submit' in request.POST:
+            caption = request.POST.get('caption')
+            post.content = caption
+            post.save()
+        elif 'video_submit' in request.POST: 
+            caption = request.POST.get('caption')
+            post.content = caption
+            post.save()
+        return redirect('profile', username=request.user.username)
+    context = {
+        "post": post
+    }
+    return render(request, "userauth/update.html", context)
