@@ -14,21 +14,41 @@ SociaLink is a platform that integrates most social media and online accounts in
 SociaLink features advanced AI-driven search and navigation, allowing users to interact with their data using simple commands. Whether you're looking for specific interactions, posts, or even cross-platform connections, the AI makes it simple and intuitive.
 
 # Tech Stack
-- **Backend**: Django (Python)
-- **Database**: PostgreSQL
-- **Containerization**: Docker
-- **AI**: LangChain agents and tools for NLP-based search and navigation
+- **Frontend**: Django templates for rendering HTML and managing the user interface.
+- **Backend**: Django (Python) for handling server-side logic and application framework.
+- **Database**: PostgreSQL for storing user data, posts, and relationships.
+- **Containerization**: Docker for creating, deploying, and managing application containers.
+- **AI**: LangChain agents and tools for NLP-based search and navigation.
+- **Version Control**: Git for tracking changes and collaboration.
+- **Testing Framework**: pytest for testing the application and ensuring code quality.
+- **Deployment**: Docker Compose for managing multi-container Docker applications.
+
 
 # How to Run
-1. Clone the repository:
+1. ### Clone the repository:
    ```bash
    git clone https://github.com/MikiyasGebrehaweriya/SociaLink.git
-2. Navigate to the project directory:
+2. ### Navigate to the project directory:
    ```bash
    cd socialink
-4. Build and run the project using Docker:
+3. ### Build and Run the Project Using Docker
+
+   **Don't have Docker? Install it first:**
+   
+   - **For Windows:** Download and install Docker Desktop from the [Docker website](https://www.docker.com/products/docker-desktop).
+   - **For macOS:** Download and install Docker Desktop from the [Docker website](https://www.docker.com/products/docker-desktop).
+   - **For Linux:** Follow the instructions for your specific distribution in the [Docker installation guide](https://docs.docker.com/engine/install/).
+
+   **Once Docker is installed, run the following command in your terminal:**
+   
    ```bash
    docker-compose up
-6. Access the application locally at:
+4. ### Access the application locally at:
    ```bash
    http://localhost:8000
+
+# References and Resources
+- [Django Documentation](https://docs.djangoproject.com/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [LangChain Documentation](https://docs.langchain.com/)
+
