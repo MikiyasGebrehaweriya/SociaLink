@@ -1,0 +1,91 @@
+site_name: Socialink Technical Documentation
+theme: 
+  name: material
+  features:
+    - navigation.sections
+    - navigation.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+    - navigation.expand
+    - navigation.bottom
+    - toc
+    - sidebar
+    - code-highlight
+    - code-fences
+    - search
+    - favicon
+    - logo
+    - footer
+    - edit-on-github
+    - scroll-to-top
+    - site-search
+    - page-anchors
+    - include-html
+    - include-markdown
+    - include-code
+    - include-codeblock
+    - include-file
+  language: en
+  palette: 
+    - scheme: default
+      toggle: 
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+      primary: teal
+      accent: lime
+    - scheme: slate
+      toggle: 
+        icon: material/toggle-switch
+        name: Switch to light mode
+      primary: teal
+      accent: lime
+
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://mikiyas.me
+    - icon: fontawesome/brands/twitter
+      link: https://mikiyas.me
+    - icon: fontawesome/brands/linkedin
+      link: https://mikiyas.me
+    - icon: fontawesome/brands/facebook
+      link: https://mikiyas.me
+    - icon: fontawesome/brands/instagram
+      link: https://mikiyas.me
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.magiclink
+  - pymdownx.tasklist
+  - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.critic
+  - pymdownx.tabbed
+
+nav:
+  - Home: index.md
+  - Installation: Installation.md
+  - Procedural Instruction: Procedural Instruction.md
+  - Backend Architecture: Backend Architecture.md
+  - API Documentation: API Documentation.md

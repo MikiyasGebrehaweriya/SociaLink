@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from . import secrets
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -104,17 +106,21 @@ WSGI_APPLICATION = 'socialink.wsgi.application'
 #     }
 # }
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': secrets.database_name,  # Replace with the name of your database
-        'USER': secrets.database_user,  # Replace with the database user
-        'PASSWORD': secrets.database_password,  # Replace with the database password
-        'HOST': secrets.database_host,  # Or the host where PostgreSQL is running
-        'PORT': secrets.database_port,  # Default PostgreSQL port
-    }
+    'default': dj_database_url.parse('postgresql://postgres:ozsodeRWiakLaNGJWQaHqYTESHtmXwNm@junction.proxy.rlwy.net:52888/railway')
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': secrets.database_name,  # Replace with the name of your database
+#         'USER': secrets.database_user,  # Replace with the database user
+#         'PASSWORD': secrets.database_password,  # Replace with the database password
+#         'HOST': secrets.database_host,  # Or the host where PostgreSQL is running
+#         'PORT': secrets.database_port,  # Default PostgreSQL port
+#     }
+# }
 
 
 PASSWORD_HASHERS = [
