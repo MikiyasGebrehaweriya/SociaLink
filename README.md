@@ -1,6 +1,8 @@
 # SociaLink
 SociaLink is a platform that integrates most social media and online accounts into one clean, user-friendly interface. It features AI-powered data navigation to streamline the user's digital experience and serves as a digital ID by centralizing and integrating a user's digital presence.
 
+[If you want to read the full technical documentation, you can find it here.](https://mikiyasgebrehaweriya.github.io/SociaLink/)
+
 # Features
 > **Unified Social Media Experience:** Consolidate multiple social media platforms into one place for seamless interaction.
 

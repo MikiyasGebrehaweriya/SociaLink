@@ -45,6 +45,8 @@ from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 
 # load_dotenv()
 # API_KEY = os.environ.get("OPENAI_API_KEY")
@@ -447,32 +449,238 @@ def profile(request, username):
     return render(request, "userauth/members-page.html", context)
 
 
+# Database and OpenAI API details from environment variables
+DATABASE_URL = os.getenv("DATABASE_URL")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+
+def get_db_connection():
+    """
+    Returns an instance of the SQLDatabase from the database URI.
+    """
+    try:
+        db = SQLDatabase.from_uri(DATABASE_URL)
+        return db
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+        return None
+    
+    
+def get_llm():
+    """
+    Returns an instance of the OpenAI language model with predefined settings.
+    """
+    try:
+        llm = ChatOpenAI(
+            model="gpt-3.5-turbo",
+            temperature=0.5,  # Lower temperature for more deterministic results
+            api_key=OPENAI_API_KEY
+        )
+        return llm
+    except Exception as e:
+        print(f"Error initializing OpenAI: {e}")
+        return None
+
+def get_user_profile(user):
+    """
+    Fetches the user's profile and relevant social media data, incorporating data from both the User model and UserProfile model.
+    """
+    try:
+        # Get the UserProfile linked to the user
+        user_account = User.objects.get(username=user)
+        user_profile = UserProfile.objects.get(user=user)
+        
+        # Get social media data associated with the user
+        instagram_data = Instagram.objects.filter(user=user)
+        facebook_data = Facebook.objects.filter(user=user)
+        youtube_data = Youtube.objects.filter(user=user)
+        linkedin_data = Linkedin.objects.filter(user=user)
+        google_data = Google.objects.filter(user=user)
+        x_data = X.objects.filter(user=user)
+        tiktok_data = Tiktok.objects.filter(user=user)
+
+        # Combine all user data into a comprehensive dictionary
+        user_data = {
+            'profile': {
+                'username': user_account.username,
+                'email': user_account.email,
+                'date_joined': user_account.date_joined,
+                'last_login': user_account.last_login,
+                'full_name': user_profile.fullName,
+                'bio': user_profile.bio,
+                'profile_picture': user_profile.profilePicture.url if user_profile.profilePicture else None,
+                'qr_code': user_profile.qr_code.url if user_profile.qr_code else None,
+                'user_code': user_profile.user_code,
+                'verified': user_profile.verified,
+                'created_at': user_profile.created_at,
+            },
+            'social_media': {
+                'instagram': list(instagram_data.values()),
+                'facebook': list(facebook_data.values()),
+                'youtube': list(youtube_data.values()),
+                'linkedin': list(linkedin_data.values()),
+                'google': list(google_data.values()),
+                'x': list(x_data.values()),
+                'tiktok': list(tiktok_data.values()),
+            }
+        }
+        return user_data
+
+    except UserProfile.DoesNotExist:
+        return None
+
+
+def construct_schema_prompt():
+    """
+    Constructs a prompt that makes the AI aware of the entire database schema,
+    covering tables related to users and multiple social media platforms.
+    This helps generate accurate SQL queries for various data sources.
+    """
+    schema_description = (
+        "The database schema consists of the following tables:\n"
+        "- User: Contains 'id', 'username', 'email', 'password', 'last_login', and 'date_joined' and more. This table stores core user account information.\n"
+        "- UserProfile: Linked to the User table via a one-to-one relationship, with fields such as 'user_id', 'fullName', 'bio', 'profilePicture', 'qr_code', 'user_code', 'verified', and 'created_at'.\n"
+        "- Instagram: Stores social media data for Instagram, with fields 'user_id', 'user', 'instagram name',  'data', 'lasted updated', .\n"
+        "- Facebook: Stores social media data for Facebook, with fields 'user_id', 'user', 'facebook name',  'data', 'lasted updated' .\n"
+        "- YouTube: Contains 'user_id', 'video_title', 'video_link', 'views'.\n"
+        "- LinkedIn: Stores LinkedIn data, including 'user_id', 'position', 'company', 'years_of_experience'.\n"
+        "- Google: Contains 'user_id', 'search_query', 'search_results'.\n"
+        "- X (formerly Twitter): Contains 'user_id', 'tweet', 'retweets', 'likes'.\n"
+        "- TikTok: Contains 'user_id', 'video_title', 'likes', 'comments'.\n\n"
+        "Use this schema to retrieve data from the relevant sources when querying for any information, ensuring that relationships between User and UserProfile, as well as User and social media data, are properly respected."
+    )
+    return schema_description
+
+
+
+def construct_user_query_prompt(user_data, user_query):
+    """
+    Constructs a prompt that includes the user's profile context, their query, and data from all connected platforms.
+    """
+    schema_prompt = construct_schema_prompt()
+    
+    # User profile context: Combines data from both User and UserProfile
+    profile_info = (
+        f"The current user is {user_data['profile'].get('username', 'Unknown')} ({user_data['profile'].get('email', 'No email available')}). "
+        f"Their username is {user_data['profile'].get('username', 'No username')}, and they joined the platform on {user_data['profile'].get('date_joined', 'Unknown')}. "
+        f"Last login was on {user_data['profile'].get('last_login', 'Unknown')}."
+    )
+    
+    # Social media platforms the user is connected to
+    platforms = []
+    if user_data['social_media']['instagram']:
+        platforms.append("Instagram")
+    if user_data['social_media']['facebook']:
+        platforms.append("Facebook")
+    if user_data['social_media']['youtube']:
+        platforms.append("YouTube")
+    if user_data['social_media']['linkedin']:
+        platforms.append("LinkedIn")
+    if user_data['social_media']['google']:
+        platforms.append("Google")
+    if user_data['social_media']['x']:
+        platforms.append("X")
+    if user_data['social_media']['tiktok']:
+        platforms.append("TikTok")
+
+    connected_platforms = ", ".join(platforms) if platforms else "no connected platforms."
+
+    # Constructing the full prompt
+    return (
+        f"The current user is {user_data['profile'].get('username', 'Unknown')} ({user_data['profile'].get('email', 'No email available')}). "
+        f"The user's complete profile info: {profile_info}. They are connected to the following platforms: {connected_platforms}. "
+        f"The user has asked the following query: '{user_query}'. "
+        f"Use data from all relevant tables like User, UserProfile, and social media accounts (Instagram, Facebook, YouTube, LinkedIn, Google, X, TikTok) to generate an accurate response. "
+        f"Use the retrived data and provide a detailed, human-readable summary of the data instead of simply confirming retrieval. "
+        f"Ensure the query is answered in a clear, concise, and easy-to-read format. "
+        f"The database schema is as follows: {schema_prompt}."
+    )
+
+
+
+def run_agent(db, llm, question):
+    """
+    Executes the LangChain SQL agent and handles errors gracefully.
+    """
+    try:
+        # Create the SQL agent using the LLM and the database connection
+        agent = create_sql_agent(llm, db=db, verbose=True)
+        
+        # Run the question through the agent
+        answer = agent.run(question)
+        return answer
+    except Exception as e:
+        print(f"Error running the agent: {e}")
+        return "There was an issue processing your request. Please try again later."
+
+
 def ai(request):
+    """
+    AI view that handles user queries, utilizing their profile context.
+    """
     if request.method == 'POST':
-        data = request.POST.get('data')
-        instagram_json = Instagram.objects.get(user=request.user).data
-        db_user = "TestUser"
-        db_password = "testuserpassword"
-        db_host = "localhost"
-        db_port = "5432"
-        db_name = "SociaLink"
+        user_query = request.POST.get('data')
         
-        db = SQLDatabase.from_uri(f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}") 
+        if not user_query:
+            return JsonResponse({'error': 'No query provided'}, status=400)
+        
+        # Fetch the current user's profile and social data
+        user_data = get_user_profile(request.user)
+        
+        if not user_data:
+            return JsonResponse({'error': 'User profile not found'}, status=404)
+
+        # Set up database connection and language model
+        db = get_db_connection()
+        llm = get_llm()
+        
+        if not db or not llm:
+            return JsonResponse({'error': 'Unable to process request due to configuration error'}, status=500)
+
+        # Construct the prompt with user context and schema knowledge
+        prompt = construct_user_query_prompt(user_data, user_query)
+        
+        # Run the agent and get the response
+        answer = run_agent(db, llm, prompt)
+
+        response_data = {'message': answer}
+        return JsonResponse(response_data)
+    
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+
+
+
+
+
+# def ai(request):
+#     if request.method == 'POST':
+#         data = request.POST.get('data')
+#         instagram_json = Instagram.objects.get(user=request.user).data
+        
+#         # db_user = "TestUser"
+#         # db_password = "testuserpassword"
+#         # db_host = "localhost"
+#         # db_port = "5432"
+#         # db_name = "SociaLink"
+#         # db = SQLDatabase.from_uri(f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}")
+#         db = SQLDatabase.from_uri(f"postgresql://postgres:ozsodeRWiakLaNGJWQaHqYTESHtmXwNm@junction.proxy.rlwy.net:52888/railway") 
         
         
-        # Configure your OpenAI API key
-        OPENAI_API_KEY = "your_openai_api_key"
-        llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7, api_key="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")
+#         # Configure your OpenAI API key
+#         OPENAI_API_KEY = "your_openai_api_key"
+#         llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7, api_key="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")
 
        
-        agent = create_sql_agent(llm, db=db, verbose=True)
-        question = "What are the top 5 users?"
-        answer = agent.run(question)
+#         agent = create_sql_agent(llm, db=db, verbose=True)
+#         question = str(data)
+#         answer = agent.run(question)
 
 
-        response_data = {'message': 'Data received successfully'}
-        return JsonResponse(response_data)
-    return JsonResponse({'error': 'Invalid request method'})
+#         response_data = {'message': answer}
+#         return JsonResponse(response_data)
+#     return JsonResponse({'error': 'Invalid request method'})
 
 
 def members(request):
