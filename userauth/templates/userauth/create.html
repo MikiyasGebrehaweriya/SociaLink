@@ -88,7 +88,7 @@
                             <div class="popup_menu"> Discover </div> 
                         </li>
                         <li class="menu__list-item">
-                            <a class="menu__list-link" href="{% url 'members' %}">
+                            <a class="menu__list-link" href="{% url 'profile_management:members' %}">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="white">
                                     <path d="M19 21V15M16 18H22M12 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -100,7 +100,7 @@
                             <div class="popup_menu">  SyncLinks </div> 
                         </li>
                         <li class="menu__list-item">
-                            <a class="menu__list-link" href="{% url 'create' %}">
+                            <a class="menu__list-link" href="{% url 'content_management:create' %}">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="white">
                                     <path d="M20 10.5V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H12M18 21V15M15 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -129,7 +129,7 @@
                         <li class="menu__list-item">
                             <div class="menu__list-link">
                                 <div class="header-form__img">
-                                    <a href="{% url 'profile' user %}">
+                                    <a href="{% url 'profile_management:profile' user %}">
                                         <img class="header-form__img-image" src="{{user_profile.profilePicture.url}}" alt="img">
                                     </a>
                                 </div>
@@ -137,9 +137,9 @@
                                     <div class="header-form__select custom-select">
                                         <select id="account_select_option">
                                             <option value="">Account</option>
-                                            <option value="{% url 'signOut' %}">{{user.username}}</option>
-                                            <option value="{% url 'signOut' %}">Settings</option>
-                                            <option value="{% url 'signOut' %}">Logout</option>
+                                            <option value="{% url 'userauth:signOut' %}">{{user.username}}</option>
+                                            <option value="{% url 'userauth:signOut' %}">Settings</option>
+                                            <option value="{% url 'userauth:signOut' %}">Logout</option>
                                         </select>
                                     </div>
                                 </span>
@@ -1055,7 +1055,7 @@
                                         </h3>
                                     </div>
                                     <div class="courses-section-curriculum-item__inner">
-                                        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+                                        <form action="{% url 'content_management:create' %}" method="POST" enctype="multipart/form-data">
                                             {% csrf_token %}
                                             <div class="courses-section-curriculum-item__box courses-section-curriculum-item-box courses-section-curriculum-item-box--checked">
                                                 <h4 class="courses-section-curriculum-item-box__title">Upload any type of image here</h4>
@@ -1089,7 +1089,7 @@
                                         </h3>
                                     </div>
                                     <div class="courses-section-curriculum-item__inner">
-                                        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+                                        <form action="{% url 'content_management:create' %}" method="POST" enctype="multipart/form-data">
                                             {% csrf_token %}
                                             <div class="courses-section-curriculum-item__box courses-section-curriculum-item-box courses-section-curriculum-item-box--checked">
                                                 <h4 class="courses-section-curriculum-item-box__title">Upload any type of video here</h4>
@@ -1120,7 +1120,7 @@
                                     <h2 class="comment__title">
                                         Twittes
                                     </h2>
-                                    <form class="comment__form" action="{% url 'create' %}" method="POST">
+                                    <form class="comment__form" action="{% url 'content_management:create' %}" method="POST">
                                         {% csrf_token %}
                                         <textarea class="comment__form-textarea" placeholder="Your Twitte" rows="3" name="twitte"></textarea>
                                         <button class="custom-submit-button" type="submit" name="twitte_submit">

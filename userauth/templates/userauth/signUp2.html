@@ -89,7 +89,7 @@
             </section>
             <section class="main__count count">
                 <div id="form-ui">
-                    <form method="POST" action="{% url 'signUp' %}" id="form">
+                    <form method="POST" action="{% url 'userauth:signUp' %}" id="form">
                         {% csrf_token %}
                         <div id="form-body">
                             {% if messages %}
@@ -140,7 +140,7 @@
                                 <button id="submit-button" type="submit">Create Account</button>
                             </div>
                             <div id="create_account">
-                                <a href="{% url 'signIn' %}">Have an account? <span>Login</span></a>
+                                <a href="{% url 'userauth:signIn' %}">Have an account? <span>Login</span></a>
                             </div>
                             <div id="bar"></div>
                         </div>

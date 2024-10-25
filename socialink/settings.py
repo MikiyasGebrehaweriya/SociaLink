@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'userauth.apps.UserauthConfig',
+    'profile_management.apps.ProfileManagementConfig',
+    'content_management.apps.ContentManagementConfig',
+    'oauth_integration.apps.OauthIntegrationConfig',
     'sslserver',
     'csp',
 ]
@@ -71,7 +74,6 @@ CSP_REPORT_ONLY = True  # Set to False for enforcement
 
 # Define a secure endpoint for receiving reports
 CSP_REPORT_URI = 'https://127.0.0.1:4000/report-csp-violation/'
-
 
 
 
