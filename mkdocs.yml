@@ -89,3 +89,13 @@ nav:
   - Procedural Instruction: Procedural Instruction.md
   - Backend Architecture: Backend Architecture.md
   - API Documentation: API Documentation.md
+  - Cloud Architecture: Cloud Architecture.md
+  - Diagrams: Diagrams.md
+
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

@@ -16,9 +16,9 @@
 
     * Don't have Docker? Install it first:
 
-        * For Windows: Download and install Docker Desktop from: [Docker For Windows](https://github.com/MikiyasGebrehaweriya/SociaLink).
-        * For macOS: Download and install Docker Desktop from: [Docker For MacOS](https://github.com/MikiyasGebrehaweriya/SociaLink).
-        * For Linux: Follow the instructions for your specific distribution in: [Docker For Linux](https://github.com/MikiyasGebrehaweriya/SociaLink).
+        * For Windows: Download and install Docker Desktop from: [Docker For Windows](https://docs.docker.com/desktop/install/windows-install/).
+        * For macOS: Download and install Docker Desktop from: [Docker For MacOS](https://docs.docker.com/desktop/install/mac-install/).
+        * For Linux: Follow the instructions for your specific distribution in: [Docker For Linux](https://docs.docker.com/desktop/install/linux/).
 
     * Once Docker is installed, run the following command in your terminal:
         ```

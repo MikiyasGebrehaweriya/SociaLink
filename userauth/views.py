@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 
@@ -357,6 +358,13 @@ def report_csp_violation(request):
 #         # ... (Your logging implementation here)
 #         return HttpResponse(status=204)  # No Content response
 #     return HttpResponseBadRequest()
+
+
+
+
+
+
+
 
 
 

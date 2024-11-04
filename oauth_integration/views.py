@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from userauth.forms import UserForm, MyUserCreationForm, UserProfileForm
@@ -32,7 +33,7 @@ import os
 
 load_dotenv()
 
-
+@login_required
 def instagramAuthorize(request):
     csrf_token = get_token(request)
     # Save the CSRF token in session for later verification
@@ -50,7 +51,7 @@ def instagramAuthorize(request):
     )
     return redirect(instagram_authorization_url)
 
-
+@login_required
 def instagramCallback(request):
     # Extract the access code and state from the query parameters
     code = request.GET.get('code')
@@ -145,7 +146,7 @@ def instagramCallback(request):
     return redirect('userauth:completeProfile')
 
 
-
+@login_required
 def facebookAuthorize(request):
     csrf_token = get_token(request)
     # Save the CSRF token in session for later verification
@@ -162,7 +163,7 @@ def facebookAuthorize(request):
     
     return redirect(facebook_authorization_url)
 
-
+@login_required
 def facebookCallback(request):
     # Extract the access code and state from the query parameters
     code = request.GET.get('code')
@@ -238,18 +239,6 @@ def facebookCallback(request):
         return redirect('userauth:completeProfile')
 
     return redirect('userauth:completeProfile')
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

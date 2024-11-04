@@ -1,44 +1,23 @@
-# Use the official Python image as a base image
-# FROM python:3.11.5-slim
+# Use an official Python runtime as a parent image
 FROM python:3.11.5
 
-# Set environment variables
-# This prevents Python from writing .pyc files, which aren’t necessary in production.
-ENV PYTHONDONTWRITEBYTECODE 1
-# This makes sure that Python output is sent straight to the terminal (useful for logging).
-ENV PYTHONUNBUFFERED 1
-
-# Create a non-root user
-# Creates a non-root user for security reasons.
-# RUN adduser --disabled-password myuser
-# USER myuser
-
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-# Copies files with the appropriate ownership, which is important for security.
-# COPY --chown=myuser:myuser requirements.txt /app/
-
-# Copy the requirements file and install dependencies
+# Copy the requirements file into the container at /app
 COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the project files
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Copy the rest of the application code into the container at /app
 COPY . /app/
-# Copy the project files
-# COPY --chown=myuser:myuser . /app/
 
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
 
+# Expose the port the app runs on
+EXPOSE 4000
 
-
-
-
-
-
-
-
-
-
-
-
+# Run the Django development server
+CMD ["python", "manage.py", "runsslserver", "0.0.0.0:4000"]

@@ -43,6 +43,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 # Helper function to handle Instagram data fetching
+
 def fetch_instagram_data(instagram_token):
     api_url = 'https://graph.instagram.com/me/media'
     params = {
@@ -59,6 +60,7 @@ def fetch_instagram_data(instagram_token):
 
 
 # Helper function to handle Facebook data fetching
+
 def fetch_facebook_data(facebook_token):
     api_url = 'https://graph.facebook.com/v12.0/me'
     params = {
@@ -75,6 +77,7 @@ def fetch_facebook_data(facebook_token):
 
 
 # Main profile view
+
 def profile(request, username):
     # Fetch user and profile details
     profile = get_object_or_404(User, username=username)
@@ -168,7 +171,7 @@ def get_db_connection():
         print(f"Error connecting to the database: {e}")
         return None
     
-    
+   
 def get_llm():
     """
     Returns an instance of the OpenAI language model with predefined settings.
@@ -183,6 +186,7 @@ def get_llm():
     except Exception as e:
         print(f"Error initializing OpenAI: {e}")
         return None
+
 
 def get_user_profile(user):
     """
@@ -315,8 +319,6 @@ def construct_user_query_prompt(user_data, user_query):
     return prompt
 
 
-
-
 def run_agent(db, llm, question):
     """
     Executes the LangChain SQL agent and handles errors gracefully.
@@ -371,6 +373,7 @@ def ai(request):
 
 
 # Helper function for searching user profiles
+
 def search_user_profiles(search_query, logged_user):
     search_filter = (
         Q(user__username__icontains=search_query) |  # Search by username
@@ -382,6 +385,7 @@ def search_user_profiles(search_query, logged_user):
 
 
 # Main members view function
+
 def members(request):
     users_profile = None  # Default value for profiles
 
@@ -424,7 +428,7 @@ def members(request):
     return render(request, "userauth/members2.html", context)
 
 
-@login_required  # Ensure only authenticated users can access this view
+ # Ensure only authenticated users can access this view
 def update_profile(request):
     try:
         # Fetch the user profile or create a new one if it doesn't exist
