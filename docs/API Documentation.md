@@ -41,7 +41,7 @@ This view handles the user login functionality by verifying the provided usernam
         * Invalid credentials.
         * Non-existent user.
 
-```py
+<!-- ```py
 def signIn(request):
     if request.method == 'POST':
         username = request.POST.get('username').lower()
@@ -77,7 +77,7 @@ def signIn(request):
     
     context = {}
     return render(request, "userauth/signIn2.html", context)
-```
+``` -->
 
 * Django Components Involved:
     1. ``authenticate(request, username, password)``:
@@ -126,7 +126,7 @@ This view handles user registration by processing the user's input, creating a n
     * Success: The user is created, logged in, and a QR code is generated. The user is then redirected to the terms and conditions page.
     * Failure: If form validation fails, error messages are displayed to guide the user in correcting the input.
 
-```py
+<!-- ```py
 def signUp(request):
     user_form = MyUserCreationForm()
     
@@ -184,7 +184,7 @@ def signUp(request):
         'user_form': user_form,
     }
     return render(request, "userauth/signUp2.html", context)
-```
+``` -->
 
 * Django Components Involved:
     1. ``MyUserCreationForm``: Custom form for user registration, used to capture and validate user details.
@@ -216,11 +216,11 @@ This view handles user logout, ensuring that the user's session is terminated an
     * Success: The user is logged out and redirected to the sign-in page.
     * Failure: No specific failure scenario as the ``logout()`` function is a simple action with minimal chances of error.
 
-```py
+<!-- ```py
 def signOut(request):
     logout(request)
     return redirect('signIn')
-```
+``` -->
 
 * Django Components Involved:
     1. ``logout()``: This function from Django's authentication system logs the user out by clearing their session.
@@ -258,7 +258,7 @@ This view is responsible for rendering a user's profile page, showing various so
     * Success: The profile page is rendered with all the user’s profile details, including connected accounts and recent posts.
     * Failure: If there is an error in fetching social media data, appropriate error messages are printed.
 
-```py
+<!-- ```py
 def profile(request, username):
     profile = get_object_or_404(User, username=username)
     logged_user_profile = UserProfile.objects.get(user=request.user)
@@ -340,7 +340,7 @@ def profile(request, username):
     }
     
     return render(request, "userauth/members-page.html", context)
-```
+``` -->
 
 * Django Components Involved:
     1. ``get_object_or_404()``: Fetches the user's profile, or raises a 404 error if the user is not found.
@@ -379,7 +379,7 @@ This view handles initiating the Instagram OAuth authorization process for users
     * Success: The user is redirected to the Instagram OAuth authorization page to give permission.
     * Failure: If any issue occurs with constructing the URL, the redirect will fail (although this is unlikely with correct setup).
 
-```py
+<!-- ```py
 def instagramAuthorize(request):
     csrf_token = get_token(request)
     # Save the CSRF token in session for later verification
@@ -397,7 +397,7 @@ def instagramAuthorize(request):
     )
     
     return redirect(instagram_authorization_url)
-```
+``` -->
 
 * Django Components Involved:
     1. ``get_token(request)``: Generates a CSRF token to protect against CSRF attacks.
@@ -438,7 +438,7 @@ This view handles the callback after a user authorizes the app on Instagram. It 
     * Success: Instagram access token is successfully retrieved, saved in the database, and linked to the user's account.
     * Failure: If an error occurs (e.g., CSRF validation failure or Instagram authorization issues), appropriate error messages are displayed.
 
-```py
+<!-- ```py
 def instagramCallback(request):
     # Extract the access code and state from the query parameters
     code = request.GET.get('code')
@@ -519,7 +519,7 @@ def instagramCallback(request):
         print("Not Authorized By Instagram")
         
     return redirect('completeProfile')
-```
+``` -->
 
 * Django Components Involved:
     1. ``get_token()``: Used to retrieve CSRF tokens for security purposes.

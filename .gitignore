@@ -1,6 +1,18 @@
 socialink/secrets.py
 migrations/
 note.txt
+commented_code.py
+userauth/templates/userauth/backup.html
+userauth/templates/userauth/completeProfile.html
+userauth/templates/userauth/members-page.html
+userauth/templates/userauth/members.html
+userauth/templates/userauth/profile.html
+userauth/templates/userauth/signIn.html
+userauth/templates/userauth/signUp.html
+userauth/templates/userauth/test.html
+userauth/templates/userauth/update.html
+static/images/posts/
+static/images/qrcodes/
 
 
 # Created by https://www.gitignore.io
@@ -32,6 +44,9 @@ Temporary Items
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
+pip-log.txt
+.venv
+__pypackages__/
 *.py[cod]
 
 # C extensions
@@ -90,5 +105,8 @@ target/
 __pycache__/
 local_settings.py
 
+cloud_sql_proxy
 .env
+.env.prod
 db.sqlite3
+creds.json

@@ -1,48 +1,48 @@
 # Core GCP Services Used And It's Architecture
 
 ## Architecture Components and Services
-To host our Django application and PostgreSQL database, we’ll use the following GCP services, leveraging Cloud Run for a fully managed, serverless environment:
+To host our Django application and PostgreSQL database, we used the following GCP services, leveraging Cloud Run for a fully managed, serverless environment:
 
 * Cloud Run (for Django App)
-    * ``Role``: We’ll deploy our Django application to Cloud Run as a containerized service. Cloud Run is ideal for handling scaling, high availability, and load balancing automatically, allowing us to focus on app functionality rather than infrastructure.
+    * ``Role``: We deployed our Django application to Cloud Run as a containerized service. Cloud Run was ideal for handling scaling, high availability, and load balancing automatically, allowing us to focus on app functionality rather than infrastructure.
     * ``Implementation``:
-        * First, we’ll create a Docker image of our Django app. In the project root, we’ll define a ``Dockerfile``, specifying our runtime environment, dependencies, and Django-specific configurations.
-        * Once the Docker image is ready, we’ll deploy it to Cloud Run. To streamline deployment, we’ll configure Cloud Run to pull this image from Artifact Registry (GCP’s container registry service).
+        * First, we created a Docker image of our Django app. In the project root, we defined a ``Dockerfile``, specifying our runtime environment, dependencies, and Django-specific configurations.
+        * Once the Docker image was ready, we deployed it to Cloud Run. To streamline deployment, we configured Cloud Run to pull this image from Artifact Registry (GCP’s container registry service).
 
 * Cloud SQL (for PostgreSQL Database)
-    * ``Role``: Cloud SQL will host our PostgreSQL database, providing us with a fully managed database service, including automated backups, scaling, and maintenance.
+    * ``Role``: Cloud SQL hosted our PostgreSQL database, providing us with a fully managed database service, including automated backups, scaling, and maintenance.
     * ``Implementation``: 
-        * We’ll set up a PostgreSQL instance in Cloud SQL and configure it for private IP access to restrict exposure to external traffic.
-        * We’ll create a database and user in this Cloud SQL instance with settings compatible with our Django application’s database configurations.
+        * We set up a PostgreSQL instance in Cloud SQL and configured it for private IP access to restrict exposure to external traffic.
+        * We created a database and user in this Cloud SQL instance with settings compatible with our Django application’s database configurations.
 
 * Cloud Storage (for Static and Media Files)
-    * ``Role``: Cloud Storage will handle the storage of static assets (such as CSS, JavaScript, and images) and any user-uploaded media files. As GCP’s object storage solution, Cloud Storage allows us to store and serve static content reliably and at scale.
+    * ``Role``: Cloud Storage handled the storage of static assets (such as CSS, JavaScript, and images) and any user-uploaded media files. As GCP’s object storage solution, Cloud Storage allowed us to store and serve static content reliably and at scale.
     * ``Implementation``:
-        * Using the django-storages library, we’ll configure Django to interact with Cloud Storage as a backend for static and media files.
-        * In Cloud Storage, we’ll create a bucket, assign appropriate permissions, and configure Django to use this bucket for file storage and retrieval.
+        * Using the django-storages library, we configured Django to interact with Cloud Storage as a backend for static and media files.
+        * In Cloud Storage, we created a bucket, assigned appropriate permissions, and configured Django to use this bucket for file storage and retrieval.
 
 * VPC Connector (Networking)
-    * ``Role``: To securely connect Cloud Run to Cloud SQL, we’ll configure a Virtual Private Cloud (VPC) connector. This approach allows our Django app in Cloud Run to communicate with the PostgreSQL database in Cloud SQL securely, without exposing the database to the public internet.
+    * ``Role``: To securely connect Cloud Run to Cloud SQL, we configured a Virtual Private Cloud (VPC) connector. This approach allowed our Django app in Cloud Run to communicate with the PostgreSQL database in Cloud SQL securely, without exposing the database to the public internet.
     * ``Implementation``:
-        * We’ll create a VPC network and set up a VPC connector within GCP’s VPC settings.
-        * When deploying to Cloud Run, we’ll specify this VPC connector, ensuring private IP-based communication between Cloud Run and Cloud SQL.
+        * We created a VPC network and set up a VPC connector within GCP’s VPC settings.
+        * When deploying to Cloud Run, we specified this VPC connector, ensuring private IP-based communication between Cloud Run and Cloud SQL.
 
 * Secret Manager (for Sensitive Configuration)
-    * ``Role``: Secret Manager will securely store sensitive credentials, such as the database password, Django SECRET_KEY, and any API keys we might need.
+    * ``Role``: Secret Manager securely stored sensitive credentials, such as the database password, Django SECRET_KEY, and any API keys we needed.
     * ``Implementation``:
-        * In Secret Manager, we’ll add secrets for each sensitive value, including database credentials and other essential configurations.
-        * Within our Django settings, we’ll configure the app to access these secrets programmatically, ensuring they are not hardcoded.
+        * In Secret Manager, we added secrets for each sensitive value, including database credentials and other essential configurations.
+        * Within our Django settings, we configured the app to access these secrets programmatically, ensuring they were not hardcoded.
 
 * Cloud Build (for CI/CD)
-    * ``Role``: Cloud Build will automate the building and deployment of our Docker container to Cloud Run. We’ll configure Cloud Build to automatically trigger on Git commits or pushes to specific branches.
+    * ``Role``: Cloud Build automated the building and deployment of our Docker container to Cloud Run. We configured Cloud Build to automatically trigger on Git commits or pushes to specific branches.
     * ``Implementation``:
-        * We’ll set up a cloudbuild.yaml file, specifying the build steps, such as fetching code, building the Docker image, and pushing it to Artifact Registry.
-        * In Cloud Build, we’ll configure triggers to automatically start the build process whenever we push changes to our source repository (like GitHub).
+        * We set up a ``cloudbuild.yaml`` file, specifying the build steps, such as fetching code, building the Docker image, and pushing it to Artifact Registry.
+        * In Cloud Build, we configured triggers to automatically start the build process whenever we pushed changes to our source repository in GitHub.
 
 * Artifact Registry (for Container Images)
-    * ``Role``: Artifact Registry will store our Django application’s Docker images, which Cloud Run will pull each time we deploy or update the app.
+    * ``Role``: Artifact Registry stored our Django application’s Docker images, which Cloud Run pulled each time we deployed or updated the app.
     * ``Implementation``:
-        * Cloud Build will push each Docker image version to Artifact Registry, and during deployment, Cloud Run will access this registry to retrieve the appropriate container image for our Django app.
+        * Cloud Build pushed each Docker image version to Artifact Registry, and during deployment, Cloud Run accessed this registry to retrieve the appropriate container image for our Django app.
 
 
 
@@ -117,3 +117,28 @@ To illustrate this architecture in our documentation, we can represent the follo
 * User (Client) → Cloud Run (via HTTPS)
 
 This architecture allows us to deploy a fully serverless, scalable solution with Cloud Run, ensuring high availability and robust database management via Cloud SQL, and secure asset storage using Cloud Storage.
+
+``` mermaid
+graph LR
+  A{{Developers}} -->|Commit & Push Code| B((GitHub));
+  B --> |Trigger| C@{ shape: processes, label: "Cloud Build" }
+  C --> |Push Image| D@{ shape: processes, label: "Artifact Registry" }
+  C --> |Deploy| E@{ shape: processes, label: "Cloud Run" }
+  D --> |Push Image| E
+  E --> |Pull Image| D
+  E --> F{Virtual Private Cloud Or VPC}
+  F --> G@{ shape: processes, label: "Cloud SQL" }
+  F --> H@{ shape: processes, label: "Cloud Storage" }
+  F --> I@{ shape: processes, label: "Secret Manager" }
+  F --> J@{ shape: processes, label: "AI Services" }
+  G --> K[(PostgreSQL Database)]
+  H --> L@{ shape: lin-cyl, label: "Static Files" }
+  I --> M@{ shape: curv-trap, label: "Secrets/Environment Variables" }
+  J --> N@{ shape: dbl-circ, label: "LLM 1" }
+  J --> O@{ shape: dbl-circ, label: "LLM 2" }
+  J --> P@{ shape: dbl-circ, label: "LLM 3" }
+  D --> Q@{ shape: lin-cyl, label: "Docker Image 1" }
+  D --> R@{ shape: lin-cyl, label: "Docker Image 2" }
+  D --> S@{ shape: lin-cyl, label: "Docker Image 3" }
+  E --> T@{ shape: lin-cyl, label: "Latest Docker Image" }
+```

@@ -86,11 +86,11 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Installation: Installation.md
-  - Procedural Instruction: Procedural Instruction.md
+  - Conceptual Documentation: Conceptual Documentation.md
   - Backend Architecture: Backend Architecture.md
   - API Documentation: API Documentation.md
   - Cloud Architecture: Cloud Architecture.md
-  - Diagrams: Diagrams.md
+  # - Diagrams: Diagrams.md
 
 
 markdown_extensions:

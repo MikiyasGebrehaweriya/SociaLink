@@ -76,8 +76,6 @@ def fetch_facebook_data(facebook_token):
         return None
 
 
-# Main profile view
-
 def profile(request, username):
     # Fetch user and profile details
     profile = get_object_or_404(User, username=username)
