@@ -23,50 +23,9 @@ ENV PYTHONUNBUFFERED 1
 # Run the application as a non-root user
 USER django-user
 
-# Expose the port on which the Django development server will run
-EXPOSE 8000
 
-# Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-
-
-
-
-
-
-
-
-
-
-# FROM python:3.11.5-slim
-
-# # Copy requirements.txt to the container
-# COPY ./requirements.txt /requirements.txt
-
-# # Copy the entire project root directory (where your Django code and Dockerfile reside) to /app in the container
-# COPY . /app
-
-# # Set /app as the working directory
-# WORKDIR /app
-
-# # Set up a virtual environment and install dependencies
-# RUN python -m venv /py && \
-#     /py/bin/pip install --upgrade pip && \
-#     /py/bin/pip install -r /requirements.txt && \
-#     adduser --disabled-password --no-create-home django-user
-
-# # Update PATH for the virtual environment
-# ENV PATH="/py/bin:$PATH"
-# ENV PYTHONDONTWRITEBYTECODE 1
-# ENV PYTHONUNBUFFERED 1
-
-# # Run the application as a non-root user
-# USER django-user
-
-
-# # Run Gunicorn to serve the Django application
-# CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 socialink.wsgi:application
+# Run Gunicorn to serve the Django application
+CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 socialink.wsgi:application
 
 
 
