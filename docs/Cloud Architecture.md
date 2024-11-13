@@ -142,3 +142,9 @@ graph LR
   D --> S@{ shape: lin-cyl, label: "Docker Image 3" }
   E --> T@{ shape: lin-cyl, label: "Latest Docker Image" }
 ```
+
+
+<figure markdown="span">
+  ![Image title](C:\Users\mghaw\Downloads\Blank diagram.jpeg){ width="300" }
+  <figcaption>Image caption</figcaption>
+</figure>
