@@ -1,4 +1,7 @@
 site_name: Socialink Technical Documentation
+plugins:
+  - glightbox
+  
 theme: 
   name: material
   features:

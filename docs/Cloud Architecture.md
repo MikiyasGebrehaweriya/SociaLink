@@ -58,13 +58,45 @@ Below is a step-by-step, technical breakdown of the architecture flow, from code
         * Sample ``cloudbuild.yaml``:
 
         ```yaml
-        steps:
-        - name: 'gcr.io/cloud-builders/docker'
-            args: ['build', '-t', 'YOUR_REGION-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPO/YOUR_IMAGE', '.']
-        - name: 'gcr.io/cloud-builders/docker'
-            args: ['push', 'YOUR_REGION-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPO/YOUR_IMAGE']
-        images:
-        - 'YOUR_REGION-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPO/YOUR_IMAGE'
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        metadata:
+        name: YOUR_SERVICE_NAME
+        namespace: YOUR_NAMESPACE
+        labels:
+            commit-sha: YOUR_COMMIT_SHA
+            managed-by: YOUR_MANAGEMENT_TOOL
+        annotations:
+            serving.knative.dev/creator: YOUR_EMAIL
+        spec:
+        template:
+            metadata:
+            labels:
+                commit-sha: YOUR_COMMIT_SHA
+            annotations:
+                autoscaling.knative.dev/maxScale: 'YOUR_MAX_SCALE'
+            spec:
+            containerConcurrency: YOUR_CONCURRENCY
+            timeoutSeconds: YOUR_TIMEOUT
+            serviceAccountName: YOUR_SERVICE_ACCOUNT
+            containers:
+            - name: YOUR_CONTAINER_NAME
+                image: YOUR_REGION-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPO/YOUR_IMAGE:YOUR_TAG
+                ports:
+                - containerPort: YOUR_PORT
+                env:
+                - name: YOUR_ENV_VARIABLE
+                valueFrom:
+                    secretKeyRef:
+                    name: YOUR_SECRET_NAME
+                    key: YOUR_SECRET_KEY
+                resources:
+                limits:
+                    cpu: YOUR_CPU_LIMIT
+                    memory: YOUR_MEMORY_LIMIT
+        traffic:
+        - percent: 100
+            latestRevision: true
         ```
 
 2. Deploy to Cloud Run
@@ -118,33 +150,4 @@ To illustrate this architecture in our documentation, we can represent the follo
 
 This architecture allows us to deploy a fully serverless, scalable solution with Cloud Run, ensuring high availability and robust database management via Cloud SQL, and secure asset storage using Cloud Storage.
 
-``` mermaid
-graph LR
-  A{{Developers}} -->|Commit & Push Code| B((GitHub));
-  B --> |Trigger| C@{ shape: processes, label: "Cloud Build" }
-  C --> |Push Image| D@{ shape: processes, label: "Artifact Registry" }
-  C --> |Deploy| E@{ shape: processes, label: "Cloud Run" }
-  D --> |Push Image| E
-  E --> |Pull Image| D
-  E --> F{Virtual Private Cloud Or VPC}
-  F --> G@{ shape: processes, label: "Cloud SQL" }
-  F --> H@{ shape: processes, label: "Cloud Storage" }
-  F --> I@{ shape: processes, label: "Secret Manager" }
-  F --> J@{ shape: processes, label: "AI Services" }
-  G --> K[(PostgreSQL Database)]
-  H --> L@{ shape: lin-cyl, label: "Static Files" }
-  I --> M@{ shape: curv-trap, label: "Secrets/Environment Variables" }
-  J --> N@{ shape: dbl-circ, label: "LLM 1" }
-  J --> O@{ shape: dbl-circ, label: "LLM 2" }
-  J --> P@{ shape: dbl-circ, label: "LLM 3" }
-  D --> Q@{ shape: lin-cyl, label: "Docker Image 1" }
-  D --> R@{ shape: lin-cyl, label: "Docker Image 2" }
-  D --> S@{ shape: lin-cyl, label: "Docker Image 3" }
-  E --> T@{ shape: lin-cyl, label: "Latest Docker Image" }
-```
-
-
-<figure markdown="span">
-  ![Image title](C:\Users\mghaw\Downloads\Blank diagram.jpeg){ width="300" }
-  <figcaption>Image caption</figcaption>
-</figure>
+![Cloud Architecture Diagram](CloudDiagram.png)
