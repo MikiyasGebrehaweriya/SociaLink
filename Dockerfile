@@ -1,31 +1,68 @@
-FROM python:3.11.5-slim
+# Use the official Python image.
+FROM python:3.11-slim
 
-# Copy requirements.txt to the container
-COPY ./requirements.txt /requirements.txt
-
-# Copy the entire project root directory (where your Django code and Dockerfile reside) to /app in the container
-COPY . /app
-
-# Set /app as the working directory
-WORKDIR /app
-
-# Set up a virtual environment and install dependencies
-RUN python -m venv /py && \
-    /py/bin/pip install --upgrade pip && \
-    /py/bin/pip install -r /requirements.txt && \
-    adduser --disabled-password --no-create-home django-user
-
-# Update PATH for the virtual environment
-ENV PATH="/py/bin:$PATH"
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Run the application as a non-root user
-USER django-user
+# Set work directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && apt-get clean
+
+# Install Python dependencies
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
+COPY . /app/
 
 
-# Run Gunicorn to serve the Django application
-CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 socialink.wsgi:application
+
+# Run the application
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "socialink.wsgi:application"]
+
+
+
+
+
+
+
+
+
+
+# FROM python:3.11.5-slim
+
+# # Copy requirements.txt to the container
+# COPY ./requirements.txt /requirements.txt
+
+# # Copy the entire project root directory (where your Django code and Dockerfile reside) to /app in the container
+# COPY . /app
+
+# # Set /app as the working directory
+# WORKDIR /app
+
+# # Set up a virtual environment and install dependencies
+# RUN python -m venv /py && \
+#     /py/bin/pip install --upgrade pip && \
+#     /py/bin/pip install -r /requirements.txt && \
+#     adduser --disabled-password --no-create-home django-user
+
+# # Update PATH for the virtual environment
+# ENV PATH="/py/bin:$PATH"
+# ENV PYTHONDONTWRITEBYTECODE 1
+# ENV PYTHONUNBUFFERED 1
+
+# # Run the application as a non-root user
+# USER django-user
+
+
+# # Run Gunicorn to serve the Django application
+# CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 socialink.wsgi:application
 
 
 
