@@ -1,15 +1,19 @@
+# Use a slim Python image
 FROM python:3.11.5-slim
 
 # Copy requirements.txt to the container
 COPY ./requirements.txt /requirements.txt
 
-# Copy the entire project root directory (where your Django code and Dockerfile reside) to /app in the container
+# Copy .env file for environment variables
+COPY .env /app/.env
+
+# Copy the entire project root directory to /app in the container
 COPY . /app
 
 # Set /app as the working directory
 WORKDIR /app
 
-# Set up a virtual environment and install dependencies
+# Install dependencies
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /requirements.txt && \
@@ -20,17 +24,21 @@ ENV PATH="/py/bin:$PATH"
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# Set environment variable for Django settings module
+ENV DJANGO_SETTINGS_MODULE=socialink.settings
+
 # Run collectstatic to gather static files
 RUN /py/bin/python manage.py collectstatic --noinput
 
-# Run the application as a non-root user
+# Switch to a non-root user
 USER django-user
 
-# Expose the port on which the application will run
+# Expose the port
 EXPOSE 8000
 
 # Run the application
 CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 socialink.wsgi:application
+
 
 
 
