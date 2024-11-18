@@ -106,6 +106,6 @@ __pycache__/
 local_settings.py
 
 cloud_sql_proxy
-# .env
+.env
 .env.prod
 db.sqlite3
