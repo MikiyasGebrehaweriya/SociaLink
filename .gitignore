@@ -109,4 +109,3 @@ cloud_sql_proxy
 .env
 .env.prod
 db.sqlite3
-creds.json

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "socialink-418314",
+  "private_key_id": "f29a96aba86427118ab14c638a69df3bff64d142",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9+F+5bmFQuvjx\nVcdnQHgnVlCMmBctPLde8+xUmprMdMR1rrTd7JZB6cdfLC9Df3LdQ00EXQ724iq2\n+tDOH9Q/FxXMCEcK/znA3aXiW14NPGHIRigSTkLBRzm6zXQNICFw6/LyTqmvl4Vk\n7vtdUXb1cD7aBNh/QBmW7LcH7XOTp1Ly4hRZ8RHvx4UIyMECu+QKfx9LvYnfi6vp\nlSUKxdVSXJ3rlWZX0ycPBCBVruLnucsmMq25nVCc5nxsJiAlmAlVIngZjf2ulUeD\n07KUNTohOrrj40HlqbMPOy2TqHPqF4WTfaFhEqH6WyzrOpIk/oHHFgg6PkmT5Ki1\n327A174rAgMBAAECggEABNMxOcPtNqYRzDmThVV48fbUiaNxF56unrXd2veF7egy\nyNg4ZIbzba3gBHdaSFNTFv4iybrbWSu9CC4uSsU6XkfaL4LSrI/rrN9FxDzDTMYI\nvza73Lm1lz/bUpmn1GEmib4OnFcVrmrEbdo3rOoux3wAttk8qKMag0h0mIt+2aLO\nMD16PUGlAivIDk1PkqHlJS+5v8ymFxJ1bq6XdSO2zlpqkjDdH18YVj0H2zoKBQfW\nl/xdxcs+EGee24QDvJW3mfDJvr3HemrWWTfhF+iQRQJ+ko2zAJ8YNAg5FXLqDn3C\nLvC0DY5MlcwB+7S9BQiSohS08U5tzIhN1ZC4yaZxoQKBgQDsUrDpYd4J5SySi4BL\nsu+yaDc/hRZzB2Y24ki7C77lMm+ct5ifSTxrX2iasoNn+6NeNeGzHX2tbUMN9p0i\nE0sh8+UQ5h0KEcrdQgAA+VeHnENH2WC9IXPcZZ7UApmLBvQHRw0QgMZdilytRsEP\n9IRJ+2CbaIEoRg4c1kDrS5micwKBgQDNyagMUhrK1MRhmdi858YThPQfC4xDCmUi\nh8i+UU8zz/zbeMBJoqWK2nzqhAkIsnpd3ahCnhe3w9yzduk3P0ryHUIX4wJhcsUY\nn/+v9bbUXTnJHgrEG+MNsB3QZ0EKDwpyXOKkNu27LlR9gWHTAlhvJUNuTJ7Q7kXs\nB6kOoLsvaQKBgD2njTQ2LkGSosBQ2NXnBxYajl9qD2NPSOGEw8jY1aLiN7BBTfYw\nmyzAJYBGlnXodsS7dfjO9tzqJpZcAr7DHdTr1pVEE8tuvOhgsbOPWcCtifgSxGRT\nd/DGKlvRmdFlrQDBDq2Biz8YO/mQ/gl1l5XdmWSyLRAexsvLMgCxJpH1AoGAX6Eh\nZbBV4QHkzJJIxOhUBMgZBcBBCvpuqxA8eiygyKwTjg3cFZvun8sOl5CJ/i+qa6pQ\nwbxjuzLagc91awYPltl/2EfW2GAUNXBMyoE92AwGiW5bhGyNI9Q+1pTVBY6dxS1i\n6PrZmM1b2ALi6cLCQ8wmPMCAYQkJFzksF68brVkCgYEA1ANO0itmIefd8dk0SBay\nLrjvnZ+Z2VMj/cdzHaHXCYJ3vfM6yqHPjxT686uZ3NjxXloxCUE+SL42Rj+fTLrd\n9Zl2M+Y5OAEyB99nMQfJHOSAH+M8xlJwHa4WdfdI+xDH3N+STPrPK4TMXW5uCVDK\nL5cJ8IN/mOu/SX1c1g/LpSk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "svc-app-dev@socialink-418314.iam.gserviceaccount.com",
+  "client_id": "112909577819536884722",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/svc-app-dev%40socialink-418314.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
