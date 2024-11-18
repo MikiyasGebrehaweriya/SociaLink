@@ -22,7 +22,7 @@ from google.cloud import secretmanager
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = False
+DEBUG = True
 
 env = environ.Env(
     SECRET_KEY=(str, os.getenv("SECRET_KEY")),
@@ -60,7 +60,7 @@ else:
 
 SECRET_KEY = env("SECRET_KEY")
 
-ALLOWED_HOSTS = ["socialink-953353901969.us-central1.run.app", "localhost"]
+ALLOWED_HOSTS = ["socialink-953353901969.us-central1.run.app"]
 
 
 # Database
