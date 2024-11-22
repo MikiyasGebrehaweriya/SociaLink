@@ -20,78 +20,78 @@ import google.auth
 from google.cloud import secretmanager
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = True
+# DEBUG = True
 
-env = environ.Env(
-    SECRET_KEY=(str, os.getenv("SECRET_KEY")),
-    DATABASE_URL=(str, os.getenv("DATABASE_URL")),
-    GS_BUCKET_NAME=(str, os.getenv("GS_BUCKET_NAME")),
-)
+# env = environ.Env(
+#     SECRET_KEY=(str, os.getenv("SECRET_KEY")),
+#     DATABASE_URL=(str, os.getenv("DATABASE_URL")),
+#     GS_BUCKET_NAME=(str, os.getenv("GS_BUCKET_NAME")),
+# )
 
-
-# Attempt to load the Project ID into the environment, safely failing on error.
-try:
-    _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
-except google.auth.exceptions.DefaultCredentialsError:
-    pass
-
-
-# Use local .env file in dev mode
-if os.getenv("PYTHON_ENV") == "dev":
-    DEBUG = True
-# Use GCP secret manager in prod mode
-elif os.getenv("GOOGLE_CLOUD_PROJECT", None):
-    project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
-
-    client = secretmanager.SecretManagerServiceClient()
-    settings_name = os.getenv("SETTINGS_NAME", "django_app_settings")
-    name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
-    payload = client.access_secret_version(name=name).payload.data.decode(
-        "UTF-8"
-    )
-
-    env.read_env(io.StringIO(payload))
-else:
-    raise Exception(
-        "No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found."
-    )
-
-SECRET_KEY = env("SECRET_KEY")
-
-ALLOWED_HOSTS = ["socialink-953353901969.us-central1.run.app", "localhost",]
+# # Attempt to load the Project ID into the environment, safely failing on error.
+# try:
+#     _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
+# except google.auth.exceptions.DefaultCredentialsError:
+#     pass
 
 
-# Database
-# Use django-environ to parse the connection string
-DATABASES = {"default": env.db()}
+# # Use local .env file in dev mode
+# if os.getenv("PYTHON_ENV") == "dev":
+#     print("Using local .env file")
+#     DEBUG = True
+# # Use GCP secret manager in prod mode
+# elif os.getenv("GOOGLE_CLOUD_PROJECT", None):
+#     project_id = os.getenv("GOOGLE_CLOUD_PROJECT")
 
-# If the flag as been set, configure to use proxy
-if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
-    DATABASES["default"]["HOST"] = "cloudsql-proxy"
-    DATABASES["default"]["PORT"] = 5432
+#     client = secretmanager.SecretManagerServiceClient()
+#     settings_name = os.getenv("SETTINGS_NAME", "django_app_settings")
+#     name = f"projects/{project_id}/secrets/{settings_name}/versions/latest"
+#     payload = client.access_secret_version(name=name).payload.data.decode(
+#         "UTF-8"
+#     )
+
+#     env.read_env(io.StringIO(payload))
+# else:
+#     raise Exception(
+#         "No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found."
+#     )
+
+# SECRET_KEY = env("SECRET_KEY")
+
+# ALLOWED_HOSTS = ["*"]
 
 
-# Internationalization
-LANGUAGE_CODE = "en-us"
+# # Database
+# # Use django-environ to parse the connection string
+# DATABASES = {"default": env.db()}
 
-TIME_ZONE = "UTC"
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
+# # If the flag as been set, configure to use proxy
+# if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
+#     DATABASES["default"]["HOST"] = "cloudsql-proxy"
+#     DATABASES["default"]["PORT"] = 5432
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# # Internationalization
+# LANGUAGE_CODE = "en-us"
 
-GS_BUCKET_NAME = env("GS_BUCKET_NAME")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+# TIME_ZONE = "UTC"
+
+# USE_I18N = True
+
+# USE_L10N = True
+
+# USE_TZ = True
+
+
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# GS_BUCKET_NAME = env("GS_BUCKET_NAME")
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+# STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 # GS_DEFAULT_ACL = "publicRead"
 
 # Media files settings
@@ -99,7 +99,7 @@ STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 
@@ -117,21 +117,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
+# # Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+# # Quick-start development settings - unsuitable for production
+# # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-mh-n2&$%8%023bklzla#h%5x&bprzp@x&3)#9s1r5g7)#l7cgj'
+# # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-mh-n2&$%8%023bklzla#h%5x&bprzp@x&3)#9s1r5g7)#l7cgj'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+# # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
-#ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '9172-104-151-16-127.ngrok-free.app']
+# #ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '9172-104-151-16-127.ngrok-free.app']
 
 
 # Application definition
@@ -212,9 +212,9 @@ WSGI_APPLICATION = 'socialink.wsgi.application'
 # }
 
 
-# DATABASES = {
-#     'default': dj_database_url.parse('postgresql://postgres:ozsodeRWiakLaNGJWQaHqYTESHtmXwNm@junction.proxy.rlwy.net:52888/railway')
-# }
+DATABASES = {
+    'default': dj_database_url.parse('postgresql://postgres:ozsodeRWiakLaNGJWQaHqYTESHtmXwNm@junction.proxy.rlwy.net:52888/railway')
+}
 
 # DATABASES = {
 #     'default': {
@@ -268,28 +268,28 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-us'
 
-# TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC'
 
-# USE_I18N = True
+USE_I18N = True
 
-# USE_TZ = True
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static'
-# ]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
-# MEDIA_URL = '/images/'
-# MEDIA_ROOT = BASE_DIR / 'static/images'
+MEDIA_URL = '/images/'
+MEDIA_ROOT = BASE_DIR / 'static/images'
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
