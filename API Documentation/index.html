@@ -1,0 +1,1466 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Backend%20Architecture/">
+      
+      
+        <link rel="next" href="../Cloud%20Architecture/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
+    
+    
+      
+        <title>API Documentation - Socialink Technical Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="lime">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Socialink Technical Documentation" class="md-header__button md-logo" aria-label="Socialink Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Socialink Technical Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="lime"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="lime"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Socialink Technical Documentation" class="md-nav__button md-logo" aria-label="Socialink Technical Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Socialink Technical Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conceptual%20Documentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conceptual Documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Backend%20Architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Backend Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API Documentation
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API Documentation
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      views.py
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="views.py">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signinrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      signIn(request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signuprequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      signUp(request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signoutrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      signOut(request)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profile Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Profile Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#profilerequest-username" class="md-nav__link">
+    <span class="md-ellipsis">
+      profile(request, username)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instagramauthorizerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      instagramAuthorize(request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instagramcallbackrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      instagramCallback(request)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Cloud%20Architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#api-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      views.py
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="views.py">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signinrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      signIn(request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signuprequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      signUp(request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signoutrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      signOut(request)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Profile Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Profile Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#profilerequest-username" class="md-nav__link">
+    <span class="md-ellipsis">
+      profile(request, username)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instagramauthorizerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      instagramAuthorize(request)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instagramcallbackrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      instagramCallback(request)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-documentation">API Documentation</h1>
+<h2 id="api-overview">API Overview</h2>
+<p>The application interacts through both server-side rendering (via Django templates) and backend logic (via Django views). The backend is responsible for handling HTTP requests, processing data, and interacting with databases through Django's ORM. Below is a detailed explanation of how various files like views.py, models.py, urls.py, and others work together in the authentication, management and other functionalities.</p>
+<h2 id="viewspy">views.py</h2>
+<p>This file contains the logic for handling user actions and processing requests. Below is a breakdown of each function and how they work:</p>
+<h3 id="user-authentication">User Authentication</h3>
+<h4 id="signinrequest"><code>signIn(request)</code></h4>
+<p>This view handles the user login functionality by verifying the provided username and password. If the credentials are valid, it logs the user in and then redirects them based on their terms and conditions acceptance and connected social media accounts. Here's how it works step by step:</p>
+<ul>
+<li>Input:<ul>
+<li>The POST request contains the following fields:<ul>
+<li><code>username</code>: The user's username (converted to lowercase).</li>
+<li><code>password</code>: The user's password.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Processing:</p>
+<ol>
+<li>Fetch the user:<ul>
+<li>The <code>User.objects.get()</code> method fetches the user from the database based on the provided username.</li>
+<li>If the user does not exist, it raises a <code>User.DoesNotExist</code> exception, and an error message is displayed.</li>
+</ul>
+</li>
+<li>Authenticate the user:<ul>
+<li>Django's <code>authenticate()</code> function is used to verify the username and password combination.</li>
+<li>If the authentication is successful, the <code>login()</code> function is called, which logs the user into the session.</li>
+</ul>
+</li>
+<li>Post-login flow:<ul>
+<li>After successful login, the system checks whether the user has accepted the terms and conditions via the <code>TermsAndConditions</code> model.<ul>
+<li>If they haven't, the user is redirected to the terms and conditions page.</li>
+</ul>
+</li>
+<li>The system also checks whether the user has connected any social media accounts via the <code>ConnectedAccounts</code> model.<ul>
+<li>If they have connected accounts, the user is redirected to their profile page.</li>
+<li>If they haven't connected any accounts, they are redirected to the "complete profile" page to finish their profile setup.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Error Handling:<ul>
+<li>If the credentials are invalid, an error message is displayed, informing the user that the username or password is incorrect.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Outcome:</p>
+<ul>
+<li>Success: The user is logged in and redirected to either:<ul>
+<li>Their profile page if they have connected accounts.</li>
+<li>The profile completion page if accounts are not connected.</li>
+<li>The terms and conditions page if they haven't accepted the terms.</li>
+</ul>
+</li>
+<li>Failure: Error messages are displayed in the template for:<ul>
+<li>Invalid credentials.</li>
+<li>Non-existent user.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ```py
+def signIn(request):
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+
+        try:
+            # Fetch the user by username
+            user = User.objects.get(username=username)
+
+            # Authenticate the user
+            authenticated_user = authenticate(request, username=username, password=password)
+
+            if authenticated_user is not None:
+                # Log the user in
+                login(request, authenticated_user)
+
+                # Check if user accepted the terms and conditions
+                if TermsAndConditions.objects.filter(user=request.user).exists():
+                    # Check if connected accounts exist
+                    if ConnectedAccounts.objects.filter(user=request.user, connected=True).exists():
+                        return redirect('profile', username=request.user.username)
+                    else:
+                        return redirect('completeProfile')
+                else:
+                    return redirect('termsAndconditions')
+            else:
+                # Invalid credentials error
+                messages.error(request, "Invalid username or password")
+
+        except User.DoesNotExist:
+            # User does not exist error
+            messages.error(request, "User does not exist")
+
+    context = {}
+    return render(request, "userauth/signIn2.html", context)
+``` -->
+
+<ul>
+<li>
+<p>Django Components Involved:</p>
+<ol>
+<li><code>authenticate(request, username, password)</code>:<ul>
+<li>Verifies that the provided username and password match a user in the database.profile is complete.</li>
+</ul>
+</li>
+<li><code>login(request, user)</code>:<ul>
+<li>Logs the user in by creating a session tied to that user.</li>
+</ul>
+</li>
+<li><code>redirect()</code>:<ul>
+<li>Handles the redirection logic based on whether the user has accepted the terms and conditions or has connected accounts.</li>
+</ul>
+</li>
+<li><code>messages.error()</code>:<ul>
+<li>Used to pass error messages to the template, informing the user of login issues like incorrect credentials or non-existent users.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Models Involved:</p>
+<ul>
+<li><code>User</code>: The default Django user model used to store and authenticate credentials.</li>
+<li><code>TermsAndConditions</code>: Custom model to track if a user has accepted the platform's terms.</li>
+<li><code>ConnectedAccounts</code>: Custom model to track whether a user has connected any social media accounts like Instagram or Facebook.</li>
+</ul>
+</li>
+</ul>
+<h4 id="signuprequest"><code>signUp(request)</code></h4>
+<p>This view handles user registration by processing the user's input, creating a new user account, generating a personalized QR code, and assigning a unique code to the user. If successful, the user is logged in and redirected to accept the terms and conditions. Here is how the process works step-by-step:</p>
+<ul>
+<li>
+<p>Input:</p>
+<ul>
+<li>The POST request contains:<ul>
+<li><code>username</code>: The username provided by the user (converted to lowercase).</li>
+<li>Other fields required by <code>MyUserCreationForm</code> (e.g., email, password, etc.).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Processing:</p>
+<ol>
+<li>Handle the registration form:<ul>
+<li>An instance of <code>MyUserCreationForm</code> is created to handle form input.</li>
+<li>If the form data is valid, the user object is created using <code>form.save(commit=False)</code> and saved to the database with the username in lowercase.</li>
+</ul>
+</li>
+<li>Log the user in:<ul>
+<li>Once the user is successfully created, the <code>login()</code> function is called to automatically log them in.</li>
+</ul>
+</li>
+<li>Generate a QR Code:<ul>
+<li>After registration, a QR code is generated for the user. This QR code encodes the URL of the user's profile page (e.g., <code>/profile/{username}/</code>).</li>
+<li>The QR code is created using the <code>qrcode</code> library with specific settings (version, error correction, box size, border).</li>
+<li>The generated QR code image is customized with fill and background colors, and saved as an image file under the <code>qrcodes</code> directory inside the media root.</li>
+</ul>
+</li>
+<li>Generate a unique user code:<ul>
+<li>A unique number is generated using the <code>generate_unique_number()</code> function, which can serve as a user identifier or verification code.</li>
+</ul>
+</li>
+<li>Create a UserProfile:<ul>
+<li>A <code>UserProfile</code> object is created for the newly registered user.</li>
+<li>The QR code image path and unique user code are saved in the user's profile.</li>
+</ul>
+</li>
+<li>Redirect to terms and conditions:<ul>
+<li>After the user has been created and logged in, they are redirected to the terms and conditions page.</li>
+</ul>
+</li>
+<li>Form validation:<ul>
+<li>If the form is not valid, the errors are caught and displayed to the user using Django's <code>messages.error()</code> system.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Outcome:</p>
+<ul>
+<li>Success: The user is created, logged in, and a QR code is generated. The user is then redirected to the terms and conditions page.</li>
+<li>Failure: If form validation fails, error messages are displayed to guide the user in correcting the input.</li>
+</ul>
+</li>
+</ul>
+<!-- ```py
+def signUp(request):
+    user_form = MyUserCreationForm()
+
+    if request.method == 'POST':
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            # Save user with lowercase username
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            # Log the user in
+            login(request, user)
+
+            # Generate QR code content (e.g., user profile URL)
+            qr_content = request.build_absolute_uri(f'/profile/{user.username}/')
+
+            # Generate QR code
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data(qr_content)
+            qr.make(fit=True)
+            qr_img = qr.make_image(fill_color="#135D66", back_color="#FFF5E0")
+
+            # Save QR code image to the "qrcodes" folder
+            media_root = settings.MEDIA_ROOT
+            qrcodes_folder = os.path.join(media_root, 'qrcodes')
+            if not os.path.exists(qrcodes_folder):
+                os.makedirs(qrcodes_folder)
+            qr_img_path = os.path.join(qrcodes_folder, f'{user.username}_qr.png')
+            qr_img.save(qr_img_path)
+
+            # Generate a unique user code
+            unique_number = generate_unique_number()
+            print(unique_number)
+
+            # Create a UserProfile and save QR code and user code
+            user_profile = UserProfile.objects.create(user=user)
+            user_profile.qr_code = qr_img_path
+            user_profile.user_code = unique_number
+            user_profile.save()
+
+            return redirect('termsAndconditions')
+        else:
+            # Display form validation errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+
+    context = {
+        'user_form': user_form,
+    }
+    return render(request, "userauth/signUp2.html", context)
+``` -->
+
+<ul>
+<li>
+<p>Django Components Involved:</p>
+<ol>
+<li><code>MyUserCreationForm</code>: Custom form for user registration, used to capture and validate user details.</li>
+<li><code>login(request, user)</code>: Logs the newly registered user in by creating a session for them.</li>
+<li><code>qrcode</code>: Python library used to generate a QR code with the user's profile URL as its content.</li>
+<li><code>os.path</code> &amp; <code>os.makedirs()</code>: Used to check and create the necessary folder structure for storing QR code images.</li>
+<li><code>messages.error()</code>: Used to display form validation errors in the template for user feedback.</li>
+</ol>
+</li>
+<li>
+<p>Models Involved:</p>
+<ul>
+<li><code>User</code>: The standard Django user model that stores basic user information like username and password.</li>
+<li><code>UserProfile</code>: Custom model that stores additional information about the user, including the QR code path and a unique user code.</li>
+<li><code>generate_unique_number()</code>: Custom function responsible for generating a unique identifier for the user.</li>
+</ul>
+</li>
+</ul>
+<h4 id="signoutrequest"><code>signOut(request)</code></h4>
+<p>This view handles user logout, ensuring that the user's session is terminated and they are redirected to the sign-in page. It performs a simple but essential process to securely log the user out of the application.</p>
+<ul>
+<li>
+<p>Input:</p>
+<ul>
+<li>The request does not require any specific input, as the logout action is initiated when a user triggers the sign-out process (typically by clicking a "Logout" button or link).</li>
+</ul>
+</li>
+<li>
+<p>Processing:</p>
+<ol>
+<li>User Logout:<ul>
+<li>The <code>logout()</code> function from Django's authentication framework is called. This function:<ul>
+<li>Clears the session data for the current user.</li>
+<li>Terminates the user's active session in the application.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Redirect to Sign-In Page:<ul>
+<li>Once the user is logged out, they are redirected to the <code>signIn</code> view where they can log in again if desired.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Outcome:</p>
+<ul>
+<li>Success: The user is logged out and redirected to the sign-in page.</li>
+<li>Failure: No specific failure scenario as the <code>logout()</code> function is a simple action with minimal chances of error.</li>
+</ul>
+</li>
+</ul>
+<!-- ```py
+def signOut(request):
+    logout(request)
+    return redirect('signIn')
+``` -->
+
+<ul>
+<li>Django Components Involved:<ol>
+<li><code>logout()</code>: This function from Django's authentication system logs the user out by clearing their session.</li>
+<li><code>redirect()</code>: After logging out, this function redirects the user to the 'signIn' page, ensuring they are no longer in an authenticated state.</li>
+</ol>
+</li>
+</ul>
+<h3 id="profile-management">Profile Management</h3>
+<h4 id="profilerequest-username"><code>profile(request, username)</code></h4>
+<p>This view is responsible for rendering a user's profile page, showing various social media data, posts, and connections, while also differentiating between the profile owner and visitors. Here's an overview of how the process works:</p>
+<ul>
+<li>
+<p>Input:</p>
+<ul>
+<li>The function receives a <code>request</code> object and the <code>username</code> of the user whose profile is being viewed.</li>
+<li>The view checks if the profile belongs to the currently logged-in user (<code>is_own_profile</code>) or is being accessed by another user.</li>
+</ul>
+</li>
+<li>
+<p>Processing:</p>
+<ol>
+<li>Retrieve User Profile:<ul>
+<li>The <code>get_object_or_404()</code> function retrieves the <code>User</code> object associated with the <code>username</code> passed in the URL.</li>
+<li>The <code>UserProfile</code> object for the logged-in user (<code>request.user</code>) is fetched to display their own profile information.</li>
+</ul>
+</li>
+<li>Check Ownership of Profile:<ul>
+<li>The view checks if the logged-in user (<code>request.user</code>) is viewing their own profile by comparing their username with the profile being viewed (<code>is_own_profile</code>).</li>
+</ul>
+</li>
+<li>Fetch Profile Data:<ul>
+<li>The profile's associated posts, connected social media accounts (Instagram, Facebook), and recently connected users are retrieved.</li>
+<li>Connected accounts like Instagram, Facebook, YouTube, LinkedIn, Google, X (formerly Twitter), and TikTok are checked, and the total number of connected platforms is calculated.</li>
+</ul>
+</li>
+<li>Instagram API Call:<ul>
+<li>The view makes an API call to Instagram's Graph API using the user's Instagram access token to fetch recent media (e.g., posts, captions, media URLs).</li>
+<li>The fetched data is saved to the Instagram model for future access.</li>
+</ul>
+</li>
+<li>Facebook API Call:<ul>
+<li>Similarly, the Facebook Graph API is used to fetch data about the user's Facebook profile (e.g., name, email, posts, photos).</li>
+<li>The response is saved to the Facebook model, or an error message is printed if the call fails.</li>
+</ul>
+</li>
+<li>Other Data:<ul>
+<li>The 5 most recent posts of the connected users are fetched, along with other users' profiles for display in the user interface.</li>
+<li>The user's profile form is also rendered for potential updates.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Outcome:</p>
+<ul>
+<li>Success: The profile page is rendered with all the user’s profile details, including connected accounts and recent posts.</li>
+<li>Failure: If there is an error in fetching social media data, appropriate error messages are printed.</li>
+</ul>
+</li>
+</ul>
+<!-- ```py
+def profile(request, username):
+    profile = get_object_or_404(User, username=username)
+    logged_user_profile = UserProfile.objects.get(user=request.user)
+    is_own_profile = request.user.is_authenticated and str(request.user) == str(profile.username)
+
+    user = User.objects.get(username=username)
+    user_profile = UserProfile.objects.get(user=user)
+    list_of_users_profile = UserProfile.objects.exclude(user=user).order_by('-created_at')[:5]
+    profile_form = UserProfileForm(instance=request.user)
+
+    instagram = Instagram.objects.get(user=user)
+    facebook = Facebook.objects.get(user=user)
+
+    posts = Post.objects.filter(user=user).order_by('-created_at')
+    connected_users = Connection.objects.filter(user=user).values_list('connected_user', flat=True)
+    recent_posts_form_connected_users = Post.objects.filter(user__in=connected_users).order_by('-created_at')[:4]
+
+    connected_instagram_account = Instagram.objects.filter(user=user)
+    connected_facebook_account = Facebook.objects.filter(user=user)
+
+    user_connected_account = ConnectedAccounts.objects.get(user=user)
+    total_connected = (
+        user_connected_account.facebook +
+        user_connected_account.instagram +
+        user_connected_account.youtube +
+        user_connected_account.linkedin +
+        user_connected_account.google +
+        user_connected_account.x +
+        user_connected_account.tiktok
+    )
+
+    instagram_access_token = instagram.token
+    api_url = 'https://graph.instagram.com/me/media'
+    params = {
+        'fields': 'id,caption,media_type,media_url,thumbnail_url,username,timestamp',
+        'access_token': instagram_access_token
+    }
+    instagram_response = requests.get(api_url, params=params)
+    if instagram_response.status_code == 200:
+        instagram_data = instagram_response.json()
+        instagram_user = Instagram.objects.get(user=user)
+        instagram_user.data = instagram_data
+        instagram_user.last_updated = timezone.now()
+        instagram_user.save()
+    else:
+        error_message = "Error fetching Instagram content"
+        print(error_message)
+
+    facebook_access_token = facebook.token
+    api_url = 'https://graph.facebook.com/v12.0/me'
+    params = {
+        'fields': 'name,email,birthday,photos,posts,likes,events,hometown,friends',
+        'access_token': facebook_access_token
+    }
+    facebook_response = requests.get(api_url, params=params)
+    if facebook_response.status_code == 200:
+        facebook_data = facebook_response.json()
+        facebook_user = Facebook.objects.get(user=user)
+        facebook_user.data = facebook_data
+        facebook_user.last_updated = timezone.now()
+        facebook_user.save()
+    else:
+        error_message = "Error fetching Facebook content"
+        print(error_message)
+
+    context = {
+        "user": user,
+        "user_profile": user_profile,
+        "logged_user_profile": logged_user_profile,
+        "profile_form": profile_form,
+        'instagram_data': instagram_data,
+        "total_connected": total_connected,
+        "connected_instagram_account": connected_instagram_account,
+        "connected_facebook_account": connected_facebook_account,
+        "is_own_profile": is_own_profile,
+        "posts": posts,
+        "recent_posts_form_connected_users": recent_posts_form_connected_users,
+        "list_of_users_profile": list_of_users_profile,
+    }
+
+    return render(request, "userauth/members-page.html", context)
+``` -->
+
+<ul>
+<li>
+<p>Django Components Involved:</p>
+<ol>
+<li><code>get_object_or_404()</code>: Fetches the user's profile, or raises a 404 error if the user is not found.</li>
+<li><code>request.user.is_authenticated</code>: Checks if the logged-in user is authenticated.</li>
+<li><code>requests.get()</code>: Sends API requests to Instagram and Facebook to fetch user data.</li>
+<li><code>render()</code>: Renders the profile page with the gathered data and context.</li>
+</ol>
+</li>
+<li>
+<p>Models Involved:</p>
+<ul>
+<li>User: Stores basic user information (username).</li>
+<li>UserProfile: Handles extended profile data, like user codes and connected accounts.</li>
+<li>Instagram/Facebook: Models to store data fetched from respective social media APIs.</li>
+<li>Post: Fetches the user’s posts and those of their connected users.</li>
+<li>ConnectedAccounts: Tracks the user's connected social media accounts.</li>
+</ul>
+</li>
+</ul>
+<h4 id="instagramauthorizerequest"><code>instagramAuthorize(request)</code></h4>
+<p>This view handles initiating the Instagram OAuth authorization process for users by generating a CSRF token and constructing the authorization URL. It redirects the user to Instagram's authorization page to give permission for the app to access their profile and media data.</p>
+<ul>
+<li>
+<p>Input:</p>
+<ul>
+<li>The view takes a <code>request</code> object.</li>
+</ul>
+</li>
+<li>
+<p>Processing:</p>
+<ol>
+<li>Generate CSRF Token:<ul>
+<li>A CSRF token is generated using <code>get_token(request)</code> to protect against cross-site request forgery (CSRF) attacks.</li>
+<li>The CSRF token is stored in the user's session (<code>request.session['instagram_csrf_token']</code>) for later verification during the callback phase.</li>
+</ul>
+</li>
+<li>Construct Instagram Authorization URL:<ul>
+<li>The view creates an Instagram authorization URL that includes:<ul>
+<li><code>client_id</code>: The application's Instagram client ID.</li>
+<li><code>redirect_uri</code>: The URL to which Instagram will redirect after authorization (in this case, <code>https://127.0.0.1:4000/instagram_callback/</code>).</li>
+<li><code>scope</code>: The permissions requested (e.g., <code>user_profile</code>, <code>user_media</code>).</li>
+<li><code>response_type</code>: Specifies that the app is expecting an authorization code.</li>
+<li><code>state</code>: Includes the CSRF token for security and integrity verification during the OAuth process.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Redirect User:<ul>
+<li>The user is redirected to the Instagram authorization page, where they will be asked to grant the app access to their profile and media data.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Outcome:</p>
+<ul>
+<li>Success: The user is redirected to the Instagram OAuth authorization page to give permission.</li>
+<li>Failure: If any issue occurs with constructing the URL, the redirect will fail (although this is unlikely with correct setup).</li>
+</ul>
+</li>
+</ul>
+<!-- ```py
+def instagramAuthorize(request):
+    csrf_token = get_token(request)
+    # Save the CSRF token in session for later verification
+    request.session['instagram_csrf_token'] = csrf_token
+
+    # Construct the Instagram authorization URL with the state parameter
+    instagram_authorization_url = (
+        f"https://www.instagram.com/oauth/authorize/third_party?"
+        f"client_id={INSTAGRAM_CLIENT_ID}&"
+        f"redirect_uri=https%3A%2F%2F127.0.0.1%3A4000%2Finstagram_callback%2F&"
+        f"scope=user_profile%2Cuser_media&"
+        f"response_type=code&"
+        f"logger_id=1f889917-cda8-490e-9e7d-6b3ee7e51de2&"
+        f"state={csrf_token}"
+    )
+
+    return redirect(instagram_authorization_url)
+``` -->
+
+<ul>
+<li>Django Components Involved:<ol>
+<li><code>get_token(request)</code>: Generates a CSRF token to protect against CSRF attacks.</li>
+<li><code>request.session[]</code>: Stores the CSRF token in the session for future verification during the callback phase.</li>
+<li><code>redirect()</code>: Redirects the user to Instagram's OAuth authorization page after constructing the URL.</li>
+<li>OAuth Process: This function prepares the app for the Instagram OAuth flow by redirecting users to the authorization URL. The app requests access to the user's profile and media data by specifying the required scopes (<code>user_profile</code>, <code>user_media</code>).</li>
+</ol>
+</li>
+</ul>
+<h4 id="instagramcallbackrequest"><code>instagramCallback(request)</code></h4>
+<p>This view handles the callback after a user authorizes the app on Instagram. It exchanges the authorization code for an access token and stores user data in the database. Additionally, it validates the CSRF token and converts a short-lived access token into a long-lived one.</p>
+<ul>
+<li>
+<p>Input:</p>
+<ul>
+<li>The view takes a <code>request</code> object containing query parameters like the authorization <code>code</code> and <code>state</code> for CSRF verification.</li>
+</ul>
+</li>
+<li>
+<p>Processing:</p>
+<ol>
+<li>Extract Parameters:<ul>
+<li>Extracts the authorization <code>code</code> and <code>state</code> (CSRF token) from the query parameters in the request.</li>
+</ul>
+</li>
+<li>CSRF Validation:<ul>
+<li>Retrieves the CSRF token saved in the session during the authorization phase.</li>
+<li>Compares the <code>state</code> parameter (which contains the CSRF token) with the one stored in the session. If they don't match, an error message is displayed, and the user is redirected to the <code>completeProfile</code> page.</li>
+</ul>
+</li>
+<li>Exchange Code for Access Token:<ul>
+<li>If CSRF validation succeeds, a POST request is sent to Instagram's OAuth API to exchange the authorization code for an access token. This step converts the code obtained during authorization into an actual token for accessing Instagram's resources.</li>
+</ul>
+</li>
+<li>Process the Access Token Response:<ul>
+<li>If the response is successful, the access token and user ID are extracted from the response.</li>
+</ul>
+</li>
+<li>Check for Existing Instagram Account:<ul>
+<li>The app checks if the Instagram account (<code>instagram_id</code>) already exists in the database. If not, it proceeds with generating a long-lived access token.</li>
+</ul>
+</li>
+<li>Exchange Short-Lived Token for Long-Lived Token:<ul>
+<li>If the account is new, a GET request is made to exchange the short-lived token for a long-lived token, which is valid for a longer period (usually 60 days).</li>
+</ul>
+</li>
+<li>Fetch Instagram Username:<ul>
+<li>The app makes another GET request to the Instagram API to fetch the username associated with the account using the access token.</li>
+</ul>
+</li>
+<li>Save Data to Database:<ul>
+<li>A new Instagram account object is created in the <code>Instagram</code> model, storing the access token, username, and expiration details. It also updates the <code>ConnectedAccounts</code> model by incrementing the <code>instagram</code> attribute for the user.</li>
+</ul>
+</li>
+<li>Handle Existing Account:<ul>
+<li>If the Instagram account already exists, an error message is displayed.</li>
+</ul>
+</li>
+<li>Redirect User:<ul>
+<li>After the process, the user is redirected to the <code>completeProfile</code> page regardless of success or failure.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Outcome:</p>
+<ul>
+<li>Success: Instagram access token is successfully retrieved, saved in the database, and linked to the user's account.</li>
+<li>Failure: If an error occurs (e.g., CSRF validation failure or Instagram authorization issues), appropriate error messages are displayed.</li>
+</ul>
+</li>
+</ul>
+<!-- ```py
+def instagramCallback(request):
+    # Extract the access code and state from the query parameters
+    code = request.GET.get('code')
+    state = request.GET.get('state')
+
+    # Retrieve the CSRF token from session
+    csrf_token = request.session.get('instagram_csrf_token')
+
+    # Check if the state parameter matches the CSRF token
+    if not constant_time_compare(csrf_token, state):
+        # Handle CSRF validation failure
+        messages.error(request, "CSRF validation failed")
+        return redirect('completeProfile')
+
+    # Make a POST request to exchange the access code for an access token
+    response = requests.post('https://api.instagram.com/oauth/access_token', data={
+        'client_id': INSTAGRAM_CLIENT_ID,
+        'client_secret': INSTAGRAM_CLIENT_SECRET,
+        'grant_type': 'authorization_code',
+        'redirect_uri': 'https://127.0.0.1:4000/instagram_callback/',
+        'code': code,
+    })
+
+    # Process the response and extract the access token
+    if response.status_code == 200:
+        data = response.json()
+        access_token = data.get('access_token')
+        instagram_user_id = data.get('user_id')
+
+        if not Instagram.objects.filter(instagram_id=instagram_user_id).exists():
+            # Exchange the short-lived access token for a long-lived one
+            params = {
+                'grant_type': 'ig_exchange_token',
+                'client_secret': INSTAGRAM_CLIENT_SECRET,
+                'access_token': access_token,
+            }
+            ex_change_token = requests.get('https://graph.instagram.com/access_token', params=params)
+
+            # Process the exchanged response and extract the long-lived access token and expiration date
+            if ex_change_token.status_code == 200:
+                ex_change_token = ex_change_token.json()
+                long_lived_token = ex_change_token.get('access_token')
+                long_lived_token_type = ex_change_token.get('token_type')
+                long_lived_token_expires_in = ex_change_token.get("expires_in")
+                expires_at = timezone.now() + timedelta(seconds=long_lived_token_expires_in)
+
+                # Fetch the Instagram username
+                api_url = 'https://graph.instagram.com/me'
+                params = {
+                    'fields': 'username',
+                    'access_token': access_token
+                }
+                instagram_response = requests.get(api_url, params=params)
+                if instagram_response.status_code == 200:
+                    instagram_data = instagram_response.json()
+                    instagram_name = instagram_data.get('username')
+                else:
+                    messages.error(request, "Error fetching Instagram username")
+
+                # Save Instagram account details
+                Instagram.objects.create(
+                    user=request.user,
+                    instagram_id=instagram_user_id,
+                    instagram_name=instagram_name,
+                    token=long_lived_token, 
+                    token_type=long_lived_token_type,
+                    expires=expires_at
+                )
+
+                # Update ConnectedAccounts
+                connected_accounts, created = ConnectedAccounts.objects.get_or_create(user=request.user)
+                connected_accounts.instagram += 1
+                connected_accounts.save()
+        else:
+            messages.error(request, "Account Already Connected")  
+
+    else:
+        print("Not Authorized By Instagram")
+
+    return redirect('completeProfile')
+``` -->
+
+<ul>
+<li>Django Components Involved:<ol>
+<li><code>get_token()</code>: Used to retrieve CSRF tokens for security purposes.</li>
+<li><code>requests.post()</code> and <code>requests.get()</code>: Python's <code>requests</code> library is used to make HTTP requests to Instagram's OAuth and API endpoints.</li>
+<li>Models: The app interacts with several models like <code>Instagram</code>, <code>ConnectedAccounts</code> to save user data and account connections.</li>
+<li><code>messages.error()</code>: Used to display error messages to users.</li>
+<li><code>constant_time_compare()</code>: Compares CSRF tokens securely.</li>
+</ol>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://mikiyas.me" target="_blank" rel="noopener" title="mikiyas.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://mikiyas.me" target="_blank" rel="noopener" title="mikiyas.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://mikiyas.me" target="_blank" rel="noopener" title="mikiyas.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://mikiyas.me" target="_blank" rel="noopener" title="mikiyas.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256c0 120 82.7 220.8 194.2 248.5V334.2h-52.8V256h52.8v-33.7c0-87.1 39.4-127.5 125-127.5 16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287v175.9C413.8 494.8 512 386.9 512 256"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://mikiyas.me" target="_blank" rel="noopener" title="mikiyas.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141m0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7m146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8m76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.integrate", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "navigation.expand", "navigation.bottom", "toc", "sidebar", "code-highlight", "code-fences", "search", "favicon", "logo", "footer", "edit-on-github", "scroll-to-top", "site-search", "page-anchors", "include-html", "include-markdown", "include-code", "include-codeblock", "include-file"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
