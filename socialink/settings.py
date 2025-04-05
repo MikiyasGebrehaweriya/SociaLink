@@ -131,7 +131,7 @@ SECRET_KEY = 'django-insecure-mh-n2&$%8%023bklzla#h%5x&bprzp@x&3)#9s1r5g7)#l7cgj
 DEBUG = True
 
 # #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ["socialink-953353901969.us-central1.run.app", 'localhost', '127.0.0.1', '9172-104-151-16-127.ngrok-free.app']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition

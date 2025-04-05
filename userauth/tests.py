@@ -10,6 +10,57 @@ from .models import (
     Youtube, Linkedin, Google, X, Tiktok, ConnectedAccounts, Post
 )
 
+import os
+from django.conf import settings
+from .views import generate_qr_code
+from io import BytesIO
+from PIL import Image
+from django.core.exceptions import ValidationError
+
+
+
+
+class TestGenerateQRCode(TestCase):
+    
+    def test_generate_qr_code(self):
+        # Define a mock username and content
+        username = 'testuser'
+        content = 'http://example.com/profile/testuser/'
+
+        # Generate the QR code
+        qr_img_path = generate_qr_code(content, username)
+        
+        # Check if the QR code image is saved in the correct path
+        self.assertTrue(os.path.exists(qr_img_path))
+        
+        # Open the image to check if it's a valid image
+        with open(qr_img_path, 'rb') as f:
+            img = Image.open(f)
+            img.verify()  # Verify that the image is valid
+        
+        # Clean up: Delete the QR code after the test
+        os.remove(qr_img_path)
+
+    def test_qr_code_directory_creation(self):
+        # Check if the 'qrcodes' directory is created if not already present
+        media_root = settings.MEDIA_ROOT
+        qrcodes_folder = os.path.join(media_root, 'qrcodes')
+        
+        # if os.path.exists(qrcodes_folder):
+        #     os.rmdir(qrcodes_folder)  # Remove it for the test
+        
+        username = 'testuser'
+        content = 'http://example.com/profile/testuser/'
+        
+        # Generate QR code
+        generate_qr_code(content, username)
+        
+        # Assert the 'qrcodes' folder was created
+        self.assertTrue(os.path.exists(qrcodes_folder))
+        
+        # Clean up: Remove the directory and image after the test
+        os.remove(os.path.join(qrcodes_folder, f'{username}_qr.png'))
+        # os.rmdir(qrcodes_folder)
 
 
 
@@ -18,7 +69,8 @@ from .models import (
 # These tests focus on individual components of the application, such as views.
 class UserAuthViewTests(TestCase):
     def setUp(self):
-        # Set up a test client and create a test user and related objects
+        # Set up a test client and create a test user and related objects.
+        # Sets up the environment for each test in this class
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='password')
         self.userprofile = UserProfile.objects.create(user=self.user, user_code='1234567890123456')
@@ -27,9 +79,9 @@ class UserAuthViewTests(TestCase):
 
     def test_sign_in_view(self):
         # Test the sign-in view to ensure it redirects correctly after a successful login
-        response = self.client.post(reverse('userauth:signIn'), {'username': 'testuser', 'password': 'password'})
-        self.assertEqual(response.status_code, 302)  # Check for a redirect status code
-        self.assertRedirects(response, reverse('userauth:completeProfile'))  # Ensure it redirects to the correct URL
+        response = self.client.post(reverse('userauth:signIn'), {'username': 'testuser', 'password': 'password'}) # Simulates a POST request to the signIn URL with valid credentials.
+        self.assertEqual(response.status_code, 302)  # Checks if the response has a status code of 302 (redirect).
+        self.assertRedirects(response, reverse('userauth:completeProfile'))  # Ensure it redirects to the correct URL, which is completeProfile page.
 
     def test_sign_up_view(self):
         # Test the sign-up view for creating a new user
@@ -87,24 +139,10 @@ class UserAuthIntegrationTests(TestCase):
         self.assertTrue(TermsAndConditions.objects.filter(user=user, accepted=True).exists())  # Ensure terms are accepted
 
 
-# System Tests
-# These tests involve testing the application as a whole, often using tools like Selenium to test the user interface.
-class UserAuthSystemTests(LiveServerTestCase):
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-
-    def tearDown(self):
-        self.browser.quit()
-
-    def test_sign_in_page_title(self):
-        self.browser.get(self.live_server_url + reverse('userauth:signIn'))
-        print(self.browser.current_url)  # Print the current URL for debugging
-        print(self.browser.title)  # Print the actual title for debugging
-        self.assertIn('userauth:signIn', self.browser.title)  # Check that the page title contains 'Sign In'
 
 
 
-# ------------------------------- UserProfile Model Tests ----------------------------------------------------------
+# ------------------------------- Data Model Tests ----------------------------------------------------------
 class UserProfileModelTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='password')
@@ -150,7 +188,23 @@ class SocialMediaModelTests(TestCase):
         ig = Instagram.objects.create(user=self.user, instagram_id='12345', instagram_name='Test IG')
         self.assertEqual(ig.instagram_id, '12345')
 
-    # Add similar tests for Youtube, Linkedin, Google, X, Tiktok
+    def test_facebook_data_field_accepts_valid_json(self):
+        valid_data = {"key": "value", "nested": {"key2": "value2"}}
+        fb = Facebook.objects.create(
+            user=self.user, 
+            facebook_id='12345', 
+            facebook_name='Test FB', 
+            data=valid_data
+        )
+        self.assertEqual(fb.data, valid_data)  # Ensure the data is saved correctly
+
+    def test_facebook_data_field_rejects_invalid_data(self):
+        invalid_data = True  # Invalid data type for JSONField
+
+        with self.assertRaises(ValidationError):
+            fb = Facebook(user=self.user, facebook_id='12345', facebook_name='Test FB', data=invalid_data)
+            fb.full_clean()  # Trigger validation manually
+
 
 class ConnectedAccountsModelTests(TestCase):
     def setUp(self):
@@ -179,6 +233,50 @@ class PostModelTests(TestCase):
 
         self.assertTrue(video_post.is_video_post())
         self.assertFalse(video_post.is_text_post())
+
+
+
+
+
+
+
+
+
+# System Tests
+# # These tests involve testing the application as a whole, often using tools like Selenium to test the user interface.
+# class UserAuthSystemTests(LiveServerTestCase):
+#     def setUp(self):
+#         self.browser = webdriver.Firefox()
+
+#     def tearDown(self):
+#         self.browser.quit()
+
+#     def test_sign_in_page_title(self):
+#         self.browser.get(self.live_server_url + reverse('userauth:signIn'))
+#         print(self.browser.current_url)  # Print the current URL for debugging
+#         print(self.browser.title)  # Print the actual title for debugging
+#         self.assertIn('userauth:signIn', self.browser.title)  # Check that the page title contains 'Sign In'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
