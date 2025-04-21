@@ -164,6 +164,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 # # Allowed styles from Tailwind CSS CDN and own domain
@@ -269,16 +270,37 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
+
+# This tells Django where to collect static files (for production)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# This is optional: where your development static files live
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-MEDIA_URL = '/images/'
-MEDIA_ROOT = BASE_DIR / 'static/images'
+# Media files (uploaded images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static'
+# ]
+
+# MEDIA_URL = '/images/'
+# MEDIA_ROOT = BASE_DIR / 'static/images'
 
 
 # Default primary key field type

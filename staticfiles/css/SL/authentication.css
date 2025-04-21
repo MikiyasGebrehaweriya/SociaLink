@@ -1,0 +1,486 @@
+/*------------  main style for the page -------------*/
+#form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 380px;
+    height: 572px;
+    padding: 25px;   
+    border-radius: 15px;
+    margin-left: 50px;
+    margin-top: 250px;
+    /* Apply multiple box shadows with different colors and positions */
+    box-shadow: 0px 15px 60px #7c3aed, /* Purple */
+                0px -15px 60px #1d4ed8; /* Blue */
+    outline: 1px solid #4c1d95;
+    transform: translateY(-5px);
+}
+
+  #welcome-lines {
+    text-align: center;
+    line-height: 1;
+  }
+  
+ 
+  #welcome-line-1 {
+    background-image: linear-gradient(to right, #7c3aed, #1d4ed8); /* Define gradient colors */
+    -webkit-background-clip: text; /* Apply background-clip property for WebKit browsers */
+    color: transparent; /* Make the text transparent */
+    font-weight: 600;
+    font-size: 40px;
+    background-clip: text; /* Apply background-clip property */
+}
+
+  #welcome-line-2 {
+    background-image: linear-gradient(to right, #c4b5fd, #bfdbfe); /* Define gradient colors */
+    -webkit-background-clip: text; /* Apply background-clip property for WebKit browsers */
+    color: transparent; /* Make the text transparent */
+    font-weight: 600;
+    font-size: 20px;
+    background-clip: text; /* Apply background-clip property */
+}
+
+#welcome-line-3 {
+  background-image: linear-gradient(to right, #c4b5fd, #bfdbfe); /* Define gradient colors */
+  -webkit-background-clip: text; /* Apply background-clip property for WebKit browsers */
+  color: transparent; /* Make the text transparent */
+  font-weight: 600;
+  font-size: 30px;
+  background-clip: text;
+}
+
+  
+  #input-area {
+    margin-top: 40px;
+  }
+  
+  .form-inp {
+    padding: 11px 25px;
+    background: transparent;
+    border: 1px solid #e3e3e3;
+    line-height: 1;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .form-inp:hover {
+    border: 1px solid #818cf8;
+  }
+  
+  .form-inp:last-child {
+    margin-bottom: 55px;
+  }
+  
+  .form-inp input {
+    width: 100%;
+    background: none;
+    font-size: 13.4px;
+    color: #6366f1;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .form-inp input:focus {
+    outline: none;
+  }
+  
+  
+  #submit-button {
+    display: block;
+    width: 100%;
+    color: #6366f1;
+    background-color: transparent;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+    padding: 14px 13px 12px 13px;
+    border: 0;
+    outline: 1px solid #6366f1;
+    border-radius: 8px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all ease-in-out .3s;
+  }
+  
+  #submit-button:hover {
+    transition: all ease-in-out .3s;
+    background-color: #6366f1;
+    color: #161616;
+    cursor: pointer;
+  }
+  
+  #forgot-pass {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  #forgot-pass a {
+    color: #868686;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  #create_account {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  #create_account a{
+    color: white;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  #create_account span{
+    color: #6366f1;
+    font-size: 12px;
+    text-decoration: none;
+  }
+  
+  #bar {
+    position: absolute;
+    left: 50%;
+    bottom: -50px;
+    width: 28px;
+    height: 8px;
+    margin-left: -33px;
+    background-color: #6366f1;
+    border-radius: 10px;
+  }
+  
+  #bar:before,
+  #bar:after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #ececec;
+    border-radius: 50%;
+  }
+  
+  #bar:before {
+    right: -20px;
+  }
+  
+  #bar:after {
+    right: -38px;
+  }
+  
+      
+
+
+/*----------------------  Error message container--------------------------------------*/
+
+.notifications-container {
+  width: 100%;
+  height: auto;
+  font-size: 1.2rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 15px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.alert {
+  background-color: #c7d2fe;
+  border-left-width: 4px;
+  border-color: #6366f1;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.alert-svg {
+  height: 1.45rem;
+  width: 1.45rem;
+  color: #f87171;
+}
+
+.alert-prompt-wrap {
+  margin-left: 0.75rem;
+  color: #1e1b4b;
+}
+
+
+/*----------------------- connect accounts container/icons container -------------------------------*/
+
+
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 15px;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+}
+.content::before {
+  content: "";
+  position: absolute;
+  left: 0%;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: 0;
+  width: 40px;
+  height: 96px;
+  background-image: linear-gradient(90deg, #0000001c, transparent);
+  z-index: 2;
+  border-radius: 10px 0 0 10px;
+}
+.content::after {
+  content: "";
+  position: absolute;
+  right: 0%;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: 0;
+  width: 40px;
+  height: 96px;
+  background-image: linear-gradient(-90deg, #0000001c, transparent);
+  z-index: 9;
+  border-radius: 0 10px 10px 0;
+}
+.basic-marquee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.basic-marquee .button {
+  transition: all 0.3s ease;
+}
+.basic-marquee .button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.basic-marquee-1 {
+  animation: marquee 15s linear infinite;
+}
+.basic-marquee-2 {
+  animation: marquee 21s linear infinite;
+}
+.benefits {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  min-width: 900px;
+  height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  position: absolute;
+  inset: 0;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.basic-marquee svg {
+  width: 40px;
+}
+.basic-marquee button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cls-1 {
+  fill: #1ab7ea;
+}
+
+.cls-1,
+.cls-2 {
+  fill-rule: evenodd;
+}
+
+.cls-2 {
+  fill: #fff;
+}
+
+.cls-3 {
+  fill: #ee8208;
+  fill-rule: evenodd;
+}
+
+.cls-4 {
+  fill: #fff;
+}
+
+.cls-5,
+.cls-6 {
+  fill-rule: evenodd;
+}
+
+.cls-5 {
+  fill: #48dd55;
+}
+
+.cls-6 {
+  fill: #fff;
+}
+
+.cls-7 {
+  fill: #0a66c2;
+}
+
+.cls-7,
+.cls-8 {
+  fill-rule: evenodd;
+}
+
+.cls-8 {
+  fill: #fff;
+}
+
+.cls-9 {
+  fill: #10b7f4;
+}
+
+.cls-9,
+.cls-10 {
+  fill-rule: evenodd;
+}
+
+.cls-10 {
+  fill: #fff;
+}
+
+.cls-11 {
+  fill: #1da1f2;
+}
+
+.cls-11,
+.cls-12 {
+  fill-rule: evenodd;
+}
+
+.cls-12 {
+  fill: #fff;
+}
+
+.cls-13 {
+  fill: #ea4c89;
+}
+
+.cls-13,
+.cls-14 {
+  fill-rule: evenodd;
+}
+
+.cls-14 {
+  fill: #fff;
+}
+
+.cls-15 {
+  fill: #1769ff;
+}
+
+.cls-15,
+.cls-16 {
+  fill-rule: evenodd;
+}
+
+.cls-16 {
+  fill: #fff;
+}
+
+.cls-17 {
+  fill: #f26522;
+}
+
+.cls-17,
+.cls-18 {
+  fill-rule: evenodd;
+}
+
+.cls-18 {
+  fill: #fff;
+}
+
+
+/*----------------- connected account container -----------------------*/
+.connected_account{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 2.5rem 0;
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #7c3aed 10px ), repeating-linear-gradient( #444cf755, #1d4ed8 );
+}
+
+.connected_account_button {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  padding: 0.875rem 72px 0.875rem 1.75rem;
+  font-size: 15px;
+  line-height: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: none;
+  transition: all .6s  ease;
+  color: white;
+  background-color: transparent;
+  font-weight: 600;
+  font-size: 14px;
+  outline: 1px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.connected_account_button span {
+  background-color: rgba(0, 0, 0, 0.06);
+  display: grid;
+  position: absolute;
+  right: 0;
+  place-items: center;
+  width: 3rem;
+  height: 100%;
+}
+
+.connected_account_button span svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.connected_account_button:hover {
+  box-shadow: 0 4px 30px  rgba(4, 175, 255, .1), 0 2px 30px rgba(11, 158, 255, 0.06);
+}
+
+
+
+/*-------------------  Image Upload Input ---------------------------*/
